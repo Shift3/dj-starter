@@ -4,13 +4,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
-from djoser.views import UserViewSet
 from .agents.views import AgentViewSet
+from .users.views import UserViewSet
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = DefaultRouter()
 router.register(r'agents', AgentViewSet)
 router.register(r'users', UserViewSet)
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,3 +23,7 @@ urlpatterns = [
     re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += (path('__debug__/', include('debug_toolbar.urls')), )

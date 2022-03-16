@@ -4,6 +4,8 @@ services:
     image: postgres:14.2
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   web:
     restart: always
     environment:
@@ -12,10 +14,12 @@ services:
     command: >
       bash -c "python wait_for_postgres.py &&
                ./manage.py migrate &&
-               ./manage.py runserver 0.0.0.0:8000"
+               gunicorn boilerplate.wsgi --log-file - -b 0.0.0.0:8000 --reload"
     volumes:
-      - ./:/code
+      - .:/code/app
     ports:
       - "8000:8000"
     depends_on:
       - postgres
+volumes:
+  postgres_data:

@@ -1,0 +1,5 @@
+  /home/jschiff/work/dj-boilerplate/boilerplate/users/templates/email:
+  total used in directory 12K available 234.9 GiB
+  drwxr-xr-x 2 jschiff jschiff 4.0K Mar 22 12:46 .
+  drwxr-xr-x 3 jschiff jschiff 4.0K Mar 22 12:46 ..
+* -rw-r--r-- 1 jschiff jschiff  985 Mar 22 12:51 custom_activation.html

@@ -6,8 +6,7 @@ https://docs.djangoproject.com/en/2.0/howto/deployment/wsgi/gunicorn/
 """
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boilerplate.config")
-os.environ.setdefault("DJANGO_CONFIGURATION", "Production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boilerplate.settings.local")
 
-from configurations.wsgi import get_wsgi_application  # noqa
+from django.core.wsgi import get_wsgi_application  # noqa
 application = get_wsgi_application()

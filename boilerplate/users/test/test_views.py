@@ -1,57 +1,58 @@
-from django.urls import reverse
-from django.contrib.auth.hashers import check_password
-from nose.tools import ok_, eq_
+from boilerplate.users.models import User
+import pytest
 from rest_framework.test import APITestCase
-from rest_framework import status
-from faker import Faker
-import factory
-from ..models import User
 from .factories import UserFactory
-
-fake = Faker()
-
-
-class TestUserListTestCase(APITestCase):
-    """
-    Tests /users list operations.
-    """
-
-    def setUp(self):
-        self.url = reverse('user-list')
-        self.user_data = factory.build(dict, FACTORY_CLASS=UserFactory)
-
-    def test_post_request_with_no_data_fails(self):
-        response = self.client.post(self.url, {})
-        eq_(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-    def test_post_request_with_valid_data_succeeds(self):
-        response = self.client.post(self.url, self.user_data)
-        eq_(response.status_code, status.HTTP_201_CREATED)
-
-        user = User.objects.get(pk=response.data.get('id'))
-        eq_(user.username, self.user_data.get('username'))
-        ok_(check_password(self.user_data.get('password'), user.password))
+from django.core import mail
 
 
-class TestUserDetailTestCase(APITestCase):
-    """
-    Tests /users detail operations.
-    """
+@pytest.mark.django_db
+class UserTests(APITestCase):
 
-    def setUp(self):
-        self.user = UserFactory()
-        self.url = reverse('user-detail', kwargs={'pk': self.user.pk})
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.user.auth_token}')
+    def test_registration(self):
+        self.client.post('/users/', {
+            'email': 'some@email.com',
+            'firstName': 'Bob',
+            'lastName': 'McBob',
+        })
 
-    def test_get_request_returns_a_given_user(self):
-        response = self.client.get(self.url)
-        eq_(response.status_code, status.HTTP_200_OK)
+        assert User.objects.count() == 1
 
-    def test_put_request_updates_a_user(self):
-        new_first_name = fake.first_name()
-        payload = {'first_name': new_first_name}
-        response = self.client.put(self.url, payload)
-        eq_(response.status_code, status.HTTP_200_OK)
+    def test_sending_change_email_request(self):
+        user = UserFactory()
+        self.client.force_authenticate(user)
 
-        user = User.objects.get(pk=self.user.id)
-        eq_(user.first_name, new_first_name)
+        response = self.client.post('/users/change_email_request/', {
+            'email': 'some@otheremail.com',
+        })
+
+        assert len(mail.outbox) > 0
+        assert response.status_code == 200
+
+    def test_invitation(self):
+        user = UserFactory(role=User.ADMIN)
+        self.client.force_authenticate(user)
+
+        response = self.client.post('/users/invitation/', {
+            'email': 'new@user.com',
+            'first_name': 'Bob',
+            'last_name': 'Bobbicus',
+            'role': User.USER
+        })
+
+        assert len(mail.outbox) > 0
+        assert response.status_code == 204
+
+    def test_invitation_for_already_exiting_email(self):
+        user = UserFactory(role=User.ADMIN)
+        self.client.force_authenticate(user)
+
+        response = self.client.post('/users/invitation/', {
+            'email': user.email,
+            'first_name': 'Bob',
+            'last_name': 'Bobbicus',
+            'role': User.USER
+        })
+
+        assert len(mail.outbox) == 0
+        assert 'email' in response.json()
+        assert response.status_code == 400
