@@ -8,7 +8,16 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Check that cookiecutter generates project.
           command: |
             cd
             pip install --user cookiecutter
             cookiecutter --no-input --default-config ./project/
+      - setup_remote_docker:
+          version: 20.10.12
+      - run:
+          name: Check that project builds in docker.
+          command: |
+            cd ~/my_project
+            docker build .
+
