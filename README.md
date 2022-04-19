@@ -1,12 +1,15 @@
-# Bitwise Django Starter Project
+# Cookiecutter Bitwise Django Starter Project
 
-A batteries included starter project for bitwise projects based on [Django](https://www.djangoproject.com/). We include an API explorer, authentication, authorization, pagination, change tracking, comprehensive filters, and more.
+Powered by [Cookiecutter](https://github.com/cookiecutter/cookiecutter), this project is a a production ready, batteries included, starter project based on [Django](https://www.djangoproject.com/), that gives you a head-start on client projects. Designed for use at Bitwise Tech Consulting.
+
+We include an API explorer, authentication, authorization, pagination, change tracking, comprehensive filters, and more features that make development a breeze.
 
 For a live demo, you can check out the [staging site](https://react-dj-staging.shift3sandbox.com).
 
 ## Prerequisites
 
 ### Development Requirements
+* [Python](https://www.python.org/) for installing cookiecutter and generating out the project.
 * [Docker](https://docs.docker.com/get-started/overview/) and [Docker Compose](https://docs.docker.com/compose/) for an easy to use and reproducible development environment.
 
 ### Deployment Requirements
@@ -14,7 +17,21 @@ For a live demo, you can check out the [staging site](https://react-dj-staging.s
 
 ## Quickstart
 
-Start the dev server for local development:
+It's easy to generate out your own project. Simply install cookiecutter.
+```bash
+pip install --user cookiecutter
+```
+
+And run the cookiecutter generator
+```bash
+cookiecutter gh:Shift3/dj-starter
+```
+
+The generator will prompt you for a few details about your project, once done, it will create a django project for you in a directory named whatever you choose as the `project_slug`
+
+### Quickstart on the Generated Project
+
+Make sure you are in the generated project directory and start the dev server for local development:
 ```bash
 docker-compose up
 ```
