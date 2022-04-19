@@ -14,7 +14,7 @@ services:
     command: >
       bash -c "python wait_for_postgres.py &&
                ./manage.py migrate &&
-               gunicorn boilerplate.wsgi --log-file - -b 0.0.0.0:8000 --reload"
+               gunicorn {{ cookiecutter.project_slug }}.wsgi --log-file - -b 0.0.0.0:8000 --reload"
     volumes:
       - .:/code/app
     ports:

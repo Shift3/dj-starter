@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boilerplate.settings.local")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ cookiecutter.project_slug }}.settings.local")
 
     try:
         from django.core.management import execute_from_command_line

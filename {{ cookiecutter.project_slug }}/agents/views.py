@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from boilerplate.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
-from boilerplate.users.permissions import IsAnyRole
+from {{ cookiecutter.project_slug }}.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
+from {{ cookiecutter.project_slug }}.users.permissions import IsAnyRole
 from .models import Agent
-from boilerplate.users.models import User
+from {{ cookiecutter.project_slug }}.users.models import User
 from .serializers import AgentSerializer
 
 

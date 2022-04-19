@@ -24,6 +24,6 @@ eb_env_variables = {
   CLIENT_URL           = "https://react-dj-staging.shift3sandbox.com"
   PORT                 = "8000"
   DJANGO_SECRET_KEY    = "!w_s8q_+q4a7%-ae(_shx!3%q*6c6pfv6#$0(hmvelwv$9e6_"
-  DJANGO_SETTINGS_MODULE = "boilerplate.settings.production"
+  DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_slug }}.settings.production"
 
 }

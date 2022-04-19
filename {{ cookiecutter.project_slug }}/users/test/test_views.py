@@ -1,4 +1,4 @@
-from boilerplate.users.models import User
+from {{ cookiecutter.project_slug }}.users.models import User
 import pytest
 from rest_framework.test import APITestCase
 from .factories import UserFactory

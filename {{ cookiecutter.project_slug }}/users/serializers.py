@@ -1,4 +1,4 @@
-from boilerplate.core.fields import ThumbnailField
+from {{ cookiecutter.project_slug }}.core.fields import ThumbnailField
 from rest_framework import serializers
 from .models import User
 from djoser import serializers as dj_serializers

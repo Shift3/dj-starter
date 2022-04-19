@@ -44,9 +44,9 @@ INSTALLED_APPS = (
     'easy_thumbnails',
 
     # Your apps
-    'boilerplate.core',
-    'boilerplate.users',
-    'boilerplate.agents',
+    '{{ cookiecutter.project_slug }}.core',
+    '{{ cookiecutter.project_slug }}.users',
+    '{{ cookiecutter.project_slug }}.agents',
 )
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
@@ -66,9 +66,9 @@ MIDDLEWARE = (
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
 
-ROOT_URLCONF = 'boilerplate.urls'
+ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 SECRET_KEY = env.str('DJANGO_SECRET_KEY')
-WSGI_APPLICATION = 'boilerplate.wsgi.application'
+WSGI_APPLICATION = '{{ cookiecutter.project_slug }}.wsgi.application'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -220,7 +220,7 @@ THUMBNAIL_ALIASES = {
 # Django Rest Framework
 PAGINATION_MAX_PAGE_SIZE = 10000
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'boilerplate.core.pagination.LinkedPagination',
+    'DEFAULT_PAGINATION_CLASS': '{{ cookiecutter.project_slug }}.core.pagination.LinkedPagination',
     'PAGE_SIZE': env.int('DJANGO_PAGINATION_LIMIT', 10),
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S%z',
     'JSON_UNDERSCOREIZE': {
@@ -257,19 +257,19 @@ DJOSER = {
     'CHANGE_EMAIL_REQUEST_URL': '/auth/confirm-change-email/{uid}/{token}',
 
     'PERMISSIONS': {
-        'user_delete': ['boilerplate.users.permissions.IsAdmin'],
+        'user_delete': ['{{ cookiecutter.project_slug }}.users.permissions.IsAdmin'],
     },
     'EMAIL': {
-        'activation': 'boilerplate.users.email.ActivationEmail',
-        'password_reset': 'boilerplate.users.email.PasswordResetEmail',
+        'activation': '{{ cookiecutter.project_slug }}.users.email.ActivationEmail',
+        'password_reset': '{{ cookiecutter.project_slug }}.users.email.PasswordResetEmail',
     },
     'SERIALIZERS': {
-        'user': 'boilerplate.users.serializers.UserSerializer',
+        'user': '{{ cookiecutter.project_slug }}.users.serializers.UserSerializer',
         'user_delete': 'rest_framework.serializers.Serializer',
-        'token': 'boilerplate.users.serializers.TokenSerializer',
-        'user_create': 'boilerplate.users.serializers.UserCreateSerializer',
-        'current_user': 'boilerplate.users.serializers.UserSerializer',
-        'create_user': 'boilerplate.users.serializers.UserCreateSerializer',
-        'activation': 'boilerplate.users.serializers.ActivationSerializer',
+        'token': '{{ cookiecutter.project_slug }}.users.serializers.TokenSerializer',
+        'user_create': '{{ cookiecutter.project_slug }}.users.serializers.UserCreateSerializer',
+        'current_user': '{{ cookiecutter.project_slug }}.users.serializers.UserSerializer',
+        'create_user': '{{ cookiecutter.project_slug }}.users.serializers.UserCreateSerializer',
+        'activation': '{{ cookiecutter.project_slug }}.users.serializers.ActivationSerializer',
     },
 }

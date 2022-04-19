@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from django.db import transaction
-from boilerplate.core.models import Address
+from {{ cookiecutter.project_slug }}.core.models import Address
 from phonenumber_field.phonenumber import to_python
 from .models import Agent
 

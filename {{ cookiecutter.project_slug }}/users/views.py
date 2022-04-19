@@ -1,7 +1,7 @@
 from easy_thumbnails.files import get_thumbnailer
-from boilerplate.users.email import ChangeEmailRequestEmail
+from {{ cookiecutter.project_slug }}.users.email import ChangeEmailRequestEmail
 from djoser.serializers import UidAndTokenSerializer
-from boilerplate.users.models import User
+from {{ cookiecutter.project_slug }}.users.models import User
 from django.db import transaction
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -12,7 +12,7 @@ from djoser.views import UserViewSet as DjoserUserViewSet
 from djoser.conf import settings
 from djoser import signals
 from djoser.compat import get_user_email
-from boilerplate.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
+from {{ cookiecutter.project_slug }}.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
 from .serializers import ChangeEmailRequestSerializer, InviteUserSerializer, ProfilePictureSerializer, UserSerializer
 from .permissions import IsAdmin, IsUserOrAdmin
 
