@@ -5,6 +5,12 @@ jobs:
     working_directory: ~/project
     docker:
       - image: cimg/python:3.10.1
+        environment:
+          DATABASE_URL: postgres://postgres@localhost/circle_test
+          DJANGO_SECRET_KEY: test
+
+      - image: cimg/postgres:14.2
+
     steps:
       - checkout
       - run:
@@ -13,11 +19,19 @@ jobs:
             cd
             pip install --user cookiecutter
             cookiecutter --no-input --default-config ./project/
-      - setup_remote_docker:
-          version: 20.10.12
       - run:
-          name: Check that project builds in docker.
+          name: Install Packages
           command: |
             cd ~/my_project
-            docker build .
+            pip install -r requirements.txt
+      - run:
+          name: Migrate Database
+          command: |
+            cd ~/my_project
+            ./manage.py migrate --noinput
+      - run:
+          name: Run Tests
+          command: |
+            cd ~/my_project
+            pytest
 
