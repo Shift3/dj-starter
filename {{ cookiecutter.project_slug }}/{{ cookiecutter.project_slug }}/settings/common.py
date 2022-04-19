@@ -80,7 +80,7 @@ ADMINS = (
 # Postgres
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://postgres:@postgres:5432/postgres',
+        default='postgres://postgres:@postgres:5432/{{ cookiecutter.project_slug }}',
         conn_max_age=env.int('POSTGRES_CONN_MAX_AGE', 600)
     )
 }
