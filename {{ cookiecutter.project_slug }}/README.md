@@ -20,7 +20,7 @@ docker-compose up
 Enter the docker container (while the server is running), migrate, and create a user for yourself:
 ```bash
 # Enters a shell in the docker container
-docker-compose run exec web bash
+docker-compose exec web bash
 
 # And create a superuser for yourself.
 $ ./manage.py createsuperuser
