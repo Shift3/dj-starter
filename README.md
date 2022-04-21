@@ -6,7 +6,7 @@ We include an API explorer, authentication, authorization, pagination, change tr
 
 For a live demo, you can check out the [staging site](https://react-dj-staging.shift3sandbox.com).
 
-[![asciicast](https://asciinema.org/a/SIoRfdcNjYyEeSYRloEDSzqI3.svg)](https://asciinema.org/a/SIoRfdcNjYyEeSYRloEDSzqI3)
+[![asciicast](https://asciinema.org/a/BxSb6BFQPei4Q9sRkTSNfYbwP.svg)](https://asciinema.org/a/BxSb6BFQPei4Q9sRkTSNfYbwP)
 
 ## Prerequisites
 
