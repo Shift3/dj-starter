@@ -6,6 +6,8 @@ We include an API explorer, authentication, authorization, pagination, change tr
 
 For a live demo, you can check out the [staging site](https://react-dj-staging.shift3sandbox.com).
 
+[![asciicast](https://asciinema.org/a/SIoRfdcNjYyEeSYRloEDSzqI3.svg)](https://asciinema.org/a/SIoRfdcNjYyEeSYRloEDSzqI3)
+
 ## Prerequisites
 
 * [Python](https://www.python.org/) for installing cookiecutter and generating out the project.
