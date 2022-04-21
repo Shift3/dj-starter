@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:14.2
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB={{ cookiecutter.project_slug }}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  web:
+    restart: always
+    environment:
+      - DJANGO_SECRET_KEY=local
+    build: ./
+    command: >
+      bash -c "python wait_for_postgres.py &&
+               ./manage.py migrate &&
+               gunicorn {{ cookiecutter.project_slug }}.wsgi --log-file - -b 0.0.0.0:8000 --reload"
+    volumes:
+      - .:/code/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+volumes:
+  postgres_data:
