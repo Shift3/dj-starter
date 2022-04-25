@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket  = "shift3-terraform-state"
-    key     = "<project-name>/<environment>/terraform.tfstate"
+    key     = "{{ cookiecutter.project_slug.replace('_', '-') }}/terraform.tfstate"
     region  = "us-west-2"
     profile = "shift3"
   }
@@ -9,7 +9,6 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "2.58"
     }
   }
 }
@@ -23,7 +22,7 @@ provider "aws" {
 }
 
 locals {
-  api_domain_name    = var.aws_route53_subdomain == "" ?  "${var.application_name}.${var.aws_route53_hosted_zone}" : "${var.aws_route53_subdomain}.${var.aws_route53_hosted_zone}"
+  api_domain_name    = trimsuffix(var.aws_route53_subdomain == "" ?  "${var.application_name}.${var.aws_route53_hosted_zone}" : "${var.aws_route53_subdomain}.${var.aws_route53_hosted_zone}", ".")
   workspace_name     = "${terraform.workspace}"
   app_name           = "${var.application_name}-${terraform.workspace}"
   database_connection_variables = {
@@ -117,7 +116,7 @@ module "tf_eb" {
     {
       "DATABASE_URL" = "postgres://${local.database_connection_variables.DB_USER}:${local.database_connection_variables.DB_PASSWORD}@${split(":", module.rds_instance.host_name)[0]}:${local.database_connection_variables.DB_PORT}/${local.database_connection_variables.DB_NAME}",
       "S3_BUCKET" = var.s3_bucket_name,
-      "EMAIL_DOMAIN" = trimsuffix(local.api_domain_name, "."),
+      "EMAIL_DOMAIN" = local.api_domain_name,
     },
     var.eb_env_variables
   )
