@@ -22,7 +22,7 @@ default_tags = {
   "Developer"       = "Internal Tooling Team"
   "Environment"     = "Staging"
   "Organization"    = "Bitwise"
-  "ProjectManager"  = ""
+  "ProjectManager"  = "ProjectManager"
   "ProjectName"     = "{{ cookiecutter.project_name }}"
   "Purpose"         = "Web Server"
 }

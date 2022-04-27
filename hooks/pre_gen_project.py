@@ -9,3 +9,8 @@ assert (
     project_slug == project_slug.lower()
 ), "'{}' project slug should be all lowercase".format(project_slug)
 
+
+client_name = "{{ cookiecutter.client_name }}"
+assert (
+    "'" not in client_name
+), "'{}' client name cannot contain single quotes".format(client_name)
