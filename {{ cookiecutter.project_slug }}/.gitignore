@@ -109,5 +109,6 @@ venv.bak/
 .mypy_cache/
 
 # terraform files
+.terraform*
 staging.tfvars
 production.tfvars

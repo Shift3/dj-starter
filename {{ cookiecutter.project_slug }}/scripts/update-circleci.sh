@@ -77,7 +77,7 @@ ${prefix}AWS_DEFAULT_REGION  us-west-2
 ${prefix}EB_APPLICATION_NAME  $eb_app
 ${prefix}EB_ENVIRONMENT_NAME  $eb_env
 ${prefix}AWS_ECR_REPO_NAME  $ecr_repo_name
-${prefix}AWS_ECR_ACCOUNT_URL  $ecr_repo_url"
+${prefix}AWS_ECR_ACCOUNT_URL  $ecr_repo_url
 ${prefix}AWS_ROLE_ARN  arn:aws:iam::008036621198:role/SuperDevAssumeRole
 EOF
 )
@@ -93,7 +93,7 @@ fi
 if [ -n "$aws_secret_key" ]; then
 	env_vars=$(cat <<-EOF
 $env_vars
-${prefix}AWS_SECRET_ACCESS_KEY  $aws_access_key
+${prefix}AWS_SECRET_ACCESS_KEY  $aws_secret_key
 EOF
 )
 fi
