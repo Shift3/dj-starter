@@ -15,7 +15,7 @@ if [ -z "$(command -v terraform)" ]; then
 fi
 
 if [ -z "$CIRCLECI_TOKEN" ] || [ -z "$PROJECT_NAME" ]; then
-	echo 'Usage: CIRCLECI_TOKEN=your-personal-cirlceci-api-token PROJECT_NAME=your-project-name ./terraform-state-to-circleci.sh'
+	echo 'Usage: CIRCLECI_TOKEN=your-personal-cirlceci-api-token PROJECT_NAME=your-project-name ./update_cirleci.sh'
 	echo
 	echo 'To get a CircleCI API token, visit https://app.circleci.com/settings/user/tokens and create a new token.'
 	echo 'Your project name should also match that project name in CircleCI'

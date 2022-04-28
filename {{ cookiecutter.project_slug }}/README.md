@@ -163,7 +163,21 @@ Applications are **deployed automatically** by CircleCI when commits are pushed 
 
 ### Settings up CircleCI Environment Variables
 
-In order for automatic deploys to work, your CircleCI must be setup with the correct environment variables. The following environment variables are required to be set within the CircleCI Project Settings. Descriptions (and example values) of the environment variables follow:
+In order for automatic deploys to work, your CircleCI must be setup with the correct environment variables. 
+
+#### The easy way
+
+We include a script that pulls the necessary environment variables from your terraform state, and uploads them to CircleCI for you. In order to run it, you will need to have already provisioned your terraform infrastructure and [created a CircleCI API token](https://app.circleci.com/settings/user/tokens).
+
+```bash
+CIRCLECI_TOKEN=my-api-token PROJECT_NAME=my-project scripts/update-circleci.sh
+```
+
+Depending on your current **terraform workspace** the script will show you what environment variables you will need, and will ask you if it's ok to set them on CircleCI.
+
+#### The manual way
+
+The following environment variables are required to be set within the CircleCI Project Settings. Descriptions (and example values) of the environment variables follow:
 
 * `PROJECT_NAME`
   - The name of your project. This variable will be used to tag your docker image file. A safe name would be to use the same name as your git repository. Cannot contain spaces.
