@@ -64,7 +64,7 @@ echo "In terraform workspace:"
 echo "$tf_workspace"
 echo
 
-echo 'CircleCI also needs a keyset to deploy with.'
+echo 'CircleCI also needs a AWS key pair to deploy with.'
 printf "Enter value for %sAWS_ACCESS_KEY_ID (enter to skip): " $prefix
 read -r aws_access_key
 printf "Enter value for %sAWS_SECRET_ACCESS_KEY (enter to skip): " $prefix
@@ -78,6 +78,7 @@ ${prefix}EB_APPLICATION_NAME  $eb_app
 ${prefix}EB_ENVIRONMENT_NAME  $eb_env
 ${prefix}AWS_ECR_REPO_NAME  $ecr_repo_name
 ${prefix}AWS_ECR_ACCOUNT_URL  $ecr_repo_url"
+${prefix}AWS_ROLE_ARN  arn:aws:iam::008036621198:role/SuperDevAssumeRole
 EOF
 )
 
@@ -114,6 +115,7 @@ case $answer in
 		update_circleci_variable "${prefix}EB_ENVIRONMENT_NAME" "$eb_env"
 		update_circleci_variable "${prefix}AWS_ECR_REPO_NAME" "$ecr_repo_name"
 		update_circleci_variable "${prefix}AWS_ECR_ACCOUNT_URL" "$ecr_repo_url"
+		update_circleci_variable "${prefix}AWS_ROLE_ARN" "arn:aws:iam::008036621198:role/SuperDevAssumeRole"
 		if [ -n "$aws_access_key" ]; then
 			update_circleci_variable "${prefix}AWS_ACCESS_KEY_ID" "$aws_access_key"
 		fi

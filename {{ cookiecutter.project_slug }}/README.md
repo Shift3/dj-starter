@@ -8,7 +8,9 @@
 * [Docker](https://docs.docker.com/get-started/overview/) and [Docker Compose](https://docs.docker.com/compose/) for an easy to use and reproducible development environment.
 
 ### Deployment Requirements
-* [Terraform](https://www.terraform.io/) for managing AWS infrastructure and provisioning it.
+
+* [Terraform](https://www.terraform.io/) for managing infrastructure and provisioning it.
+* [AWS Cli](https://aws.amazon.com/cli/) for storing your AWS credentials for terraform to use.
 
 ## Quickstart
 
@@ -97,7 +99,13 @@ For more details on how Django handles migrations, see [the Django migration doc
 
 ### Quickstart
 
-In order to start provisioning your infrastructure we need to initialize terraform. This is the first command that should be run after writing a new Terraform configuration or cloning an existing one from version control. It is safe to run this command multiple times.
+In order to start provisioning your infrastructure we need to initialize terraform. Before getting started, make sure you have AWS cli installed and the `shift3` profile configured.
+
+```bash	
+aws configure --profile shift3
+```
+
+Once we have the shift3 profile configured we need to initialize terraform. This is the first command that should be runl after writing a new Terraform configuration or cloning an existing one from version control. It is safe to run this command multiple times.
 
 
 ```bash
