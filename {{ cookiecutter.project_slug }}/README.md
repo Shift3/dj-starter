@@ -167,13 +167,15 @@ In order for automatic deploys to work, your CircleCI must be setup with the cor
 
 #### The easy way
 
-We include a script that pulls the necessary environment variables from your terraform state, and uploads them to CircleCI for you. In order to run it, you will need to have already provisioned your terraform infrastructure and [created a CircleCI API token](https://app.circleci.com/settings/user/tokens).
+We include a script that pulls the necessary environment variables from your terraform state, and uploads them to CircleCI for you. In order to run it, you will need to have already provisioned your terraform infrastructure, [setup the project on CircleCI](https://app.circleci.com/projects/project-dashboard/github/Shift3/), and [created a CircleCI API token](https://app.circleci.com/settings/user/tokens).
 
 ```bash
 CIRCLECI_TOKEN=my-api-token PROJECT_NAME=my-project scripts/update-circleci.sh
 ```
 
-Depending on your current **terraform workspace** the script will show you what environment variables you will need, and will ask you if it's ok to set them on CircleCI.
+Depending on your current **terraform workspace** the script will show you what environment variables you will need, and will ask you if it's ok to set them on CircleCI. 
+
+After the script works, you can make a push to `develop` for staging, or `main` for production, to start a deploy process and make sure everything works.
 
 #### The manual way
 
