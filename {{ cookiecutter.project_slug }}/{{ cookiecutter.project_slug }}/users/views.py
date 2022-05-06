@@ -16,6 +16,7 @@ from djoser.compat import get_user_email
 from {{ cookiecutter.project_slug }}.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
 from .serializers import ChangeEmailRequestSerializer, InviteUserSerializer, ProfilePictureSerializer, UserSerializer
 from .permissions import IsAdmin, IsUserOrAdmin
+from rest_framework.exceptions import ValidationError
 
 
 class UserViewSet(DjoserUserViewSet):
@@ -42,8 +43,13 @@ class UserViewSet(DjoserUserViewSet):
 
         user = request.user
         self.check_object_permissions(request, user)
-
-        user.new_email = serializer.data['email']
+        
+        new_email = serializer.data['email']
+                                    
+        if len(User.objects.filter(email=new_email)) > 0:
+            raise ValidationError({'email': ['user with this email already exists.']})
+        
+        user.new_email = new_email
         user.save()
 
         context = {"user": user}
