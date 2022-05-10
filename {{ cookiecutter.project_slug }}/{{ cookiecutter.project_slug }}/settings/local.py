@@ -18,6 +18,10 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.logging.LoggingPanel',
 ]
 
+MIDDLEWARE += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
 # Mail
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
