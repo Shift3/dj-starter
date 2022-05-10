@@ -34,6 +34,8 @@ Optionally run the tests from within the docker container at anytime:
 $ pytest
 ```
 
+> Make sure you store the credentials files `staging.tfvars` in a secure location (as it is not committed to the repository). Internally we use [Zoho Vault](https://www.zoho.com/vault) for secure credential storage.
+
 ## The Batteries
 
 The starter project is **Batteries Included**, meaning it comes with lots of helpful feature preinstalled for you, to make your life as a developer easier. What follows is a list of what we include and where to find more information about them.
