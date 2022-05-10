@@ -1,0 +1,9 @@
+-r base.txt
+
+# Developer Tools
+ipdb==0.13.9
+ipython==8.1.1
+flake8==4.0.1
+django-debug-toolbar==3.2.4
+django-mail-panel==4.0.1
+

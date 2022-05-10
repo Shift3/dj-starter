@@ -1,0 +1,7 @@
+-r base.txt
+
+# Testing Deps
+mock==4.0.3
+factory-boy==3.2.1
+pytest-django==4.5.2
+
