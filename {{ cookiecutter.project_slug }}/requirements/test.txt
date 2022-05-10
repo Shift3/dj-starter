@@ -1,4 +1,4 @@
--r dev.txt
+-r base.txt
 
 # Testing Deps
 mock==4.0.3
