@@ -24,10 +24,9 @@ And run the cookiecutter generator
 cookiecutter gh:Shift3/dj-starter
 ```
 
-The generator will prompt you for a few details about your project, once
-done, it will create a django project for you in a directory named
-whatever you choose as the `project_slug`. After generation, view the
-`README.md` for instructions on how to develop and deploy the project.
+The generator will prompt you for a few details about your project, once done, it will create a django project for you in a directory named whatever you choose as the `project_slug`. After generation, view the `README.md` for instructions on how to develop and deploy the project.
+
+Be sure to get this pushed up to a `Shift3` repository by creating a repository on our github org and following the instructions.
 
 ## The Batteries
 
@@ -42,5 +41,4 @@ The starter project is **Batteries Included**, meaning it comes with lots of hel
 * [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/) which can be used in conjunction with the DRF Browsable API to get a deeper look at what SQL queries certain API endpoints are running, along with other helpful information in development.
 * [Django Debug Toolbar - Mail Panel](https://github.com/scuml/django-mail-panel) for viewing emails "sent" in development while not actually sending emails while developing the software.
 * [CircleCI Config](https://circleci.com/) for automatic testing and deployments to both staging and production
-
 

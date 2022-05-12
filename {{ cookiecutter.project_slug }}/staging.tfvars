@@ -5,9 +5,9 @@
 #
 # Character limit will depend on what workspace you are in as we append
 # the workspace string. Limit = (workspaceName - 26)
-application_name = "{{ cookiecutter.project_slug }}"
-s3_bucket_name = "{{ cookiecutter.project_slug }}-staging"
-aws_route53_subdomain = "{{ cookiecutter.project_slug }}-staging"
+application_name = "{{ cookiecutter.project_slug|replace('_', '-') }}"
+s3_bucket_name = "{{ cookiecutter.project_slug|replace('_', '-') }}-staging"
+aws_route53_subdomain = "{{ cookiecutter.project_slug|replace('_', '-') }}-staging"
 
 # These tag values here will be applied to most resources Terraform
 # creates. This allows us to audit our AWS account and to better track
@@ -22,7 +22,7 @@ default_tags = {
   "Developer"       = "Internal Tooling Team"
   "Environment"     = "Staging"
   "Organization"    = "Bitwise"
-  "ProjectManager"  = ""
+  "ProjectManager"  = "ProjectManager"
   "ProjectName"     = "{{ cookiecutter.project_name }}"
   "Purpose"         = "Web Server"
 }
