@@ -155,7 +155,7 @@ jobs:
       - checkout
       - run:
           name: Install Packages
-          command: 'pip install -r requirements.txt'
+          command: 'pip install -r requirements/test.txt'
       - run:
           name: Migrate Database
           command: './manage.py migrate --noinput'
