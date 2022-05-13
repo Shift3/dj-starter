@@ -158,7 +158,7 @@ jobs:
           command: 'pip install -r requirements/test.txt'
       - run:
           name: Migrate Database
-          command: './manage.py migrate --noinput'
+          command: 'DJANGO_SETTINGS_MODULE={{ cookiecutter.project_slug }}.settings.test ./manage.py migrate --noinput'
       - run:
           name: Run Tests
           command: 'pytest'
