@@ -34,4 +34,19 @@ jobs:
           command: |
             cd ~/my_project
             pytest
+      - add_ssh_keys:
+          fingerprints:
+            - "b2:25:60:7d:15:00:33:56:49:73:61:06:54:1f:46:64"
+      - run:
+          name: Update the demo site.
+          command: |
+            cd ~/my_project
+            git config --global user.email "internal-tooling@bitwiseindustries.com"
+            git config --global user.name "Internal Tooling Automation"
+            git init -b $CIRCLE_BRANCH
+            git remote add origin git@github.com:Shift3/dj_starter_demo.git
+            git add -A .
+            git commit -m "Update to $CIRCLE_SHA1"
+            git push -f origin $CIRCLE_BRANCH
+            
 
