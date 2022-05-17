@@ -18,20 +18,43 @@ jobs:
           command: |
             cd
             pip install --user cookiecutter
-            cookiecutter --no-input --default-config ./project/
+            cat \<<-EOF > $HOME/custom.yaml
+            default_context:
+                project_name: "DJ Starter Demo"
+                project_slug: "dj_starter_demo"
+                project_description: "Django Starter Demo Project"
+                client_name: "Internal Tooling"
+                staging_client_url: "https://my-react-client.shift3sandbox.com"
+            EOF
+            cookiecutter --no-input --config-file $HOME/custom.yaml ./project/
       - run:
           name: Install Packages
           command: |
-            cd ~/my_project
+            cd ~/dj_starter_demo
             pip install -r requirements/test.txt
       - run:
           name: Migrate Database
           command: |
-            cd ~/my_project
-            DJANGO_SETTINGS_MODULE=my_project.settings.test ./manage.py migrate --noinput
+            cd ~/dj_starter_demo
+            DJANGO_SETTINGS_MODULE=dj_starter_demo.settings.test ./manage.py migrate --noinput
       - run:
           name: Run Tests
           command: |
-            cd ~/my_project
+            cd ~/dj_starter_demo
             pytest
+      - add_ssh_keys:
+          fingerprints:
+            - "b2:25:60:7d:15:00:33:56:49:73:61:06:54:1f:46:64"
+      - run:
+          name: Update the demo site.
+          command: |
+            cd ~/dj_starter_demo
+            git config --global user.email "internal-tooling@bitwiseindustries.com"
+            git config --global user.name "Internal Tooling Automation"
+            git init -b $CIRCLE_BRANCH
+            git remote add origin git@github.com:Shift3/dj_starter_demo.git
+            git add -A .
+            git commit -m "Update to $CIRCLE_SHA1"
+            git push -f origin $CIRCLE_BRANCH
+            
 
