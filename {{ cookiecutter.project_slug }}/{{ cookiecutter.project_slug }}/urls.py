@@ -13,7 +13,6 @@ router.register(r'agents', AgentViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('health-check', include('health_check.urls')),
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('', include('djoser.urls.authtoken')),
