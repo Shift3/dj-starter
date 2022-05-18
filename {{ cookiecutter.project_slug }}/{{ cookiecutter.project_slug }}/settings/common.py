@@ -4,7 +4,7 @@ import dj_database_url
 import environ
 from os.path import join
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # If you have a .env file it will be imported here. Currently one is
 # not needed for local development but can be used if you want to run
