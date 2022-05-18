@@ -22,6 +22,7 @@ SERVER_URL = env.str('SERVER_URL', 'http://localhost:8000')
 CLIENT_URL = env.str('CLIENT_URL', 'http://localhost:4200')
 DEFAULT_FROM_EMAIL = f'no-reply@{env.str("EMAIL_DOMAIN", "localhost")}'
 SERVER_EMAIL = f'root@{env.str("EMAIL_DOMAIN", "localhost")}'
+SEEDED_USER_EMAIL = env.str('SEEDED_USER_EMAIL', None)
 
 INSTALLED_APPS = (
     # Builtin apps

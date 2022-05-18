@@ -3,5 +3,6 @@
 	"project_description": "A description of what the project is",
 	"project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
 	"client_name": "Client Company",
+	"admin_email": "my-email-to-use-for-admin-account@bitwiseindustries.com",
 	"staging_client_url": "https://my-react-client.shift3sandbox.com"
 }

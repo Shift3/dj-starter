@@ -24,6 +24,7 @@ jobs:
                 project_slug: "dj_starter_demo"
                 project_description: "Django Starter Demo Project"
                 client_name: "Internal Tooling"
+                admin_email: "internal-tooling@bitwiseindustries.com"
                 staging_client_url: "https://my-react-client.shift3sandbox.com"
             EOF
             cookiecutter --no-input --config-file $HOME/custom.yaml ./project/
