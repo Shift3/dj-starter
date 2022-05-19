@@ -34,7 +34,7 @@ Optionally run the tests from within the docker container at anytime:
 $ pytest
 ```
 
-> Make sure you store the credentials files `staging.tfvars` in a secure location (as it is not committed to the repository). Internally we use [Zoho Vault](https://www.zoho.com/vault) for secure credential storage.
+> Make sure you store the credentials files `staging.tfvars` and `prod.tfvars` in a secure location (as it is not committed to the repository). Internally we use [Zoho Vault](https://www.zoho.com/vault) for secure credential storage.
 
 ## The Batteries
 
@@ -114,7 +114,7 @@ Once we have the shift3 profile configured we need to initialize terraform. This
 terraform init
 ```
 
-Next we need to create a staging workspace. Workspaces allow you to manage multiple sets of infrastructure. Commonly we use staging and production. This project provides a staging setup out of the box, so lets set up our staging servers.
+Next we need to create a staging workspace. Workspaces allow you to manage multiple sets of infrastructure. Commonly we use staging and prod. This project provides a staging setup out of the box, so lets set up our staging servers.
 
 ```bash
 terraform workspace new staging
@@ -133,7 +133,7 @@ terraform apply -var-file=$(terraform workspace show).tfvars
 ```
 
 
-### Updating staging or production infrastructure
+### Updating staging or prod infrastructure
 
 First make sure you are on the correct workspace that you want to update.
 
