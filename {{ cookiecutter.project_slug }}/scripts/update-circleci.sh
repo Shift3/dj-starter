@@ -41,7 +41,7 @@ case $tf_workspace in
 	staging)
 		prefix='STAGING_'
 		;;
-	production)
+	prod)
 		prefix='PRODUCTION_'
 		;;
 	*)

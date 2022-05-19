@@ -111,4 +111,4 @@ venv.bak/
 # terraform files
 .terraform*
 staging.tfvars
-production.tfvars
+prod.tfvars
