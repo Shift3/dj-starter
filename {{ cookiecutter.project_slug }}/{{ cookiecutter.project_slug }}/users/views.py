@@ -3,6 +3,7 @@ from {{ cookiecutter.project_slug }}.users.email import ChangeEmailRequestEmail
 from djoser.serializers import UidAndTokenSerializer
 from {{ cookiecutter.project_slug }}.users.models import User
 from django.db import transaction
+from rest_framework import filters
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
@@ -19,12 +20,17 @@ from .permissions import IsAdmin, IsUserOrAdmin
 
 class UserViewSet(DjoserUserViewSet):
     permission_classes = (IsAuthenticated,)
-    filter_backends = (CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter,)
+    filter_backends = (
+        filters.SearchFilter,
+        CamelCaseOrderingFilter,
+        CamelCaseDjangoFilterBackend,
+    )
     filterset_fields = {
         'email': ['icontains', 'startswith', 'endswith', 'exact'],
         'last_name': ['icontains', 'startswith', 'endswith', 'exact'],
         'first_name': ['icontains', 'startswith', 'endswith', 'exact'],
     }
+    search_fields = ['email', 'last_name', 'first_name']
 
     def perform_update(self, serializer):
         serializer.save()
