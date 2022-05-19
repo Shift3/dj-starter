@@ -4,7 +4,7 @@ Powered by [Cookiecutter](https://github.com/cookiecutter/cookiecutter), this pr
 
 We include an API explorer, authentication, authorization, pagination, change tracking, comprehensive filters, and more features that make development a breeze.
 
-For a live demo, you can check out the [staging site](https://react-dj-staging.shift3sandbox.com).
+For a live demo, you can check out the frontend [staging site](https://boilerplate-client-react.shift3sandbox.com).
 
 [![asciicast](https://asciinema.org/a/BxSb6BFQPei4Q9sRkTSNfYbwP.svg)](https://asciinema.org/a/BxSb6BFQPei4Q9sRkTSNfYbwP)
 
