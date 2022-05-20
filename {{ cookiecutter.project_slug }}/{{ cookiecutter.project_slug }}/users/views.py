@@ -46,7 +46,7 @@ class UserViewSet(DjoserUserViewSet):
         
         new_email = serializer.data['email']
                                     
-        if len(User.objects.filter(email=new_email)) > 0:
+        if User.objects.filter(email=new_email).exists():
             raise ValidationError({'email': ['user with this email already exists.']})
         
         user.new_email = new_email
