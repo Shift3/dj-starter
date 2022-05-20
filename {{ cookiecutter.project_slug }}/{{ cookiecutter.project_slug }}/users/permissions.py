@@ -8,6 +8,7 @@ def IsAnyRole(role_list):
             if not request.user.is_authenticated:
                 return False
             return request.user.role in role_list
+
     return PermissionClass
 
 

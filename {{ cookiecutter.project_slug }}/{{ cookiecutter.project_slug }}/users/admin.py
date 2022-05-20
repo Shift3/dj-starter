@@ -6,4 +6,4 @@ from simple_history.admin import SimpleHistoryAdmin
 
 @admin.register(User)
 class UserAdminRegister(SimpleHistoryAdmin):
-    ordering = ('email', )
+    ordering = ("email",)

@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0009_historicaluser'),
+        ("users", "0009_historicaluser"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='historicaluser',
-            name='activated_at',
+            model_name="historicaluser",
+            name="activated_at",
             field=models.DateTimeField(blank=True, default=None, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='activated_at',
+            model_name="user",
+            name="activated_at",
             field=models.DateTimeField(blank=True, default=None, null=True),
         ),
     ]

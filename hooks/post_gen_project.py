@@ -1,7 +1,7 @@
 import os
 
-green     = '\033[32m'
-reset     = '\033[0m'
+green = "\033[32m"
+reset = "\033[0m"
 
 full_path = os.path.dirname(os.path.abspath("{{ cookiecutter.project_slug }}"))
 print(green)
@@ -18,4 +18,3 @@ print()
 print("Make sure to check out your new projects README.md for more")
 print("information on development and deployment")
 print(reset)
-
