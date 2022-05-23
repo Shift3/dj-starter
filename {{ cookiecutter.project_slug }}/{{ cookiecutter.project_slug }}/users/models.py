@@ -21,7 +21,7 @@ from unique_upload import unique_upload
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError(_('The Email must be set'))
+            raise ValueError(_("The Email must be set"))
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -29,11 +29,11 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, **extra_fields):
-        extra_fields['role'] = User.ADMIN
-        extra_fields['activated_at'] = timezone.now()
-        extra_fields['is_staff'] = True
-        extra_fields['is_superuser'] = True
-        extra_fields['is_active'] = True
+        extra_fields["role"] = User.ADMIN
+        extra_fields["activated_at"] = timezone.now()
+        extra_fields["is_staff"] = True
+        extra_fields["is_superuser"] = True
+        extra_fields["is_active"] = True
         return self.create_user(email, password, **extra_fields)
 
 
@@ -57,7 +57,9 @@ class User(AbstractUser, TimeStampedModel):
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
     username = None
-    profile_picture = ThumbnailerImageField(upload_to=unique_upload, null=True, blank=True)
+    profile_picture = ThumbnailerImageField(
+        upload_to=unique_upload, null=True, blank=True
+    )
     activated_at = models.DateTimeField(null=True, blank=True, default=None)
     is_active = models.BooleanField(
         _("active"),
@@ -75,12 +77,12 @@ class User(AbstractUser, TimeStampedModel):
         return self.email
 
     class Meta:
-        ordering = ['email']
+        ordering = ["email"]
         indexes = [
-            models.Index(fields=['email']),
-            models.Index(fields=['first_name']),
-            models.Index(fields=['last_name']),
-            models.Index(fields=['role']),
+            models.Index(fields=["email"]),
+            models.Index(fields=["first_name"]),
+            models.Index(fields=["last_name"]),
+            models.Index(fields=["role"]),
         ]
 
     def activate(self):
@@ -110,6 +112,7 @@ class User(AbstractUser, TimeStampedModel):
 def save_activation_date(sender, user, request, **kwargs):
     if user.activated_at is None:
         user.activate()
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

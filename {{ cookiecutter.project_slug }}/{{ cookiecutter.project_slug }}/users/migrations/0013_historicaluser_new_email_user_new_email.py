@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0012_alter_historicaluser_is_active_alter_user_is_active'),
+        ("users", "0012_alter_historicaluser_is_active_alter_user_is_active"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='historicaluser',
-            name='new_email',
+            model_name="historicaluser",
+            name="new_email",
             field=models.EmailField(default=None, max_length=254, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='new_email',
+            model_name="user",
+            name="new_email",
             field=models.EmailField(default=None, max_length=254, null=True),
         ),
     ]

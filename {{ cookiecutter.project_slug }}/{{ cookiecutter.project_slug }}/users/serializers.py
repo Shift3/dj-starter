@@ -10,8 +10,8 @@ class ActivationSerializer(dj_serializers.ActivationSerializer):
     password_confirmation = serializers.CharField()
 
     def validate_password(self, value):
-        if value != self.initial_data['password_confirmation']:
-            raise serializers.ValidationError('Passwords must match.')
+        if value != self.initial_data["password_confirmation"]:
+            raise serializers.ValidationError("Passwords must match.")
         return value
 
 
@@ -20,10 +20,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        read_only_fields = ('id', 'activated_at', 'created', 'modified', 'new_email')
-        fields = ('id', 'activated_at', 'created', 'modified',
-                  'email', 'role', 'profile_picture', 'first_name',
-                  'last_name', 'new_email')
+        read_only_fields = ("id", "activated_at", "created", "modified", "new_email")
+        fields = (
+            "id",
+            "activated_at",
+            "created",
+            "modified",
+            "email",
+            "role",
+            "profile_picture",
+            "first_name",
+            "last_name",
+            "new_email",
+        )
 
 
 class ChangeEmailRequestSerializer(serializers.Serializer):
@@ -37,19 +46,19 @@ class ChangeEmailRequestSerializer(serializers.Serializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ("email", "first_name", "last_name")
 
 
 class InviteUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'role')
+        fields = ("email", "first_name", "last_name", "role")
 
 
 class ProfilePictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('profile_picture',)
+        fields = ("profile_picture",)
 
 
 class TokenSerializer(dj_serializers.TokenSerializer):
@@ -58,4 +67,4 @@ class TokenSerializer(dj_serializers.TokenSerializer):
 
     class Meta:
         model = djoser_settings.TOKEN_MODEL
-        fields = ('token', 'user')
+        fields = ("token", "user")

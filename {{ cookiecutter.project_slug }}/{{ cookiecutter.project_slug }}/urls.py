@@ -9,22 +9,20 @@ from .users.views import UserViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = DefaultRouter()
-router.register(r'agents', AgentViewSet)
-router.register(r'users', UserViewSet)
+router.register(r"agents", AgentViewSet)
+router.register(r"users", UserViewSet)
 
 urlpatterns = [
-    path('health-check', include('health_check.urls')),
-    path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('', include('djoser.urls.authtoken')),
-    path('rf-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
+    path("health-check", include("health_check.urls")),
+    path("admin/", admin.site.urls),
+    path("", include(router.urls)),
+    path("", include("djoser.urls.authtoken")),
+    path("rf-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
-    re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
-
+    re_path(r"^$", RedirectView.as_view(url=reverse_lazy("api-root"), permanent=False)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += (path('__debug__/', include('debug_toolbar.urls')), )
+    urlpatterns += (path("__debug__/", include("debug_toolbar.urls")),)
