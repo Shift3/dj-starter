@@ -44,12 +44,7 @@ class UserViewSet(DjoserUserViewSet):
         user = request.user
         self.check_object_permissions(request, user)
         
-        new_email = serializer.data['email']
-                                    
-        if User.objects.filter(email=new_email).exists():
-            raise ValidationError({'email': ['user with this email already exists.']})
-        
-        user.new_email = new_email
+        user.new_email = serializer.data['email']
         user.save()
 
         context = {"user": user}
