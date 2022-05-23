@@ -29,6 +29,10 @@ class UserSerializer(serializers.ModelSerializer):
 class ChangeEmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError('A user with this email already exists.')
+        return value
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
