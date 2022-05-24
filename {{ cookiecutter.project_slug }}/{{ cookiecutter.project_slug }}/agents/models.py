@@ -16,6 +16,9 @@ class Agent(TimeStampedModel, models.Model):
 
     history = HistoricalRecords()
 
+    def __str__(self):
+        return f"{self.name} ({self.email})"
+
     class Meta:
         ordering = ["name"]
         indexes = [

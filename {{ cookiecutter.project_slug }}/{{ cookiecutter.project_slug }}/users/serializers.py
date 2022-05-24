@@ -1,8 +1,8 @@
 from {{ cookiecutter.project_slug }}.core.fields import ThumbnailField
 from rest_framework import serializers
-from .models import User
 from djoser import serializers as dj_serializers
 from djoser.conf import settings as djoser_settings
+from .models import User, HistoricalUser
 
 
 class ActivationSerializer(dj_serializers.ActivationSerializer):
@@ -40,8 +40,9 @@ class ChangeEmailRequestSerializer(serializers.Serializer):
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError('A user with this email already exists.')
+            raise serializers.ValidationError("A user with this email already exists.")
         return value
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,3 +69,11 @@ class TokenSerializer(dj_serializers.TokenSerializer):
     class Meta:
         model = djoser_settings.TOKEN_MODEL
         fields = ("token", "user")
+
+
+class UserHistorySerializer(serializers.ModelSerializer):
+    history_user = UserSerializer()
+
+    class Meta:
+        model = HistoricalUser
+        fields = "__all__"
