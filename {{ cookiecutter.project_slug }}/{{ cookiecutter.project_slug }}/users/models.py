@@ -71,7 +71,7 @@ class User(AbstractUser, TimeStampedModel):
     )
 
     objects = UserManager()
-    history = HistoricalRecords()
+    history = HistoricalRecords(excluded_fields=['password'])
 
     def __str__(self):
         return self.email
@@ -105,7 +105,7 @@ class User(AbstractUser, TimeStampedModel):
     def delete_profile_picture(self, save):
         if self.profile_picture:
             thumbnailer = get_thumbnailer(self.profile_picture)
-            thumbnailer.delete(save=False)
+            thumbnailer.delete(save=save)
 
 
 @receiver(user_activated)

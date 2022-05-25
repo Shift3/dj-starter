@@ -266,3 +266,5 @@ DJOSER = {
         "activation": "{{ cookiecutter.project_slug }}.users.serializers.ActivationSerializer",
     },
 }
+
+SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True

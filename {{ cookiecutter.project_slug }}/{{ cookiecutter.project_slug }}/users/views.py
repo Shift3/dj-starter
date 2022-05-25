@@ -1,10 +1,12 @@
+from rest_framework_extensions.mixins import NestedViewSetMixin
 from {{ cookiecutter.project_slug }}.users.email import ChangeEmailRequestEmail
-from {{ cookiecutter.project_slug }}.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
-from {{ cookiecutter.project_slug }}.users.models import User
+from {{ cookiecutter.project_slug }}.core.filters import (
+    CamelCaseDjangoFilterBackend,
+    CamelCaseOrderingFilter,
+)
 from djoser.serializers import UidAndTokenSerializer
 from django.db import transaction
-from rest_framework import filters
-from rest_framework import status
+from rest_framework import filters, status, viewsets, mixins
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -18,9 +20,10 @@ from .serializers import (
     InviteUserSerializer,
     ProfilePictureSerializer,
     UserSerializer,
+    UserHistorySerializer
 )
 from .permissions import IsAdmin, IsUserOrAdmin
-from rest_framework.exceptions import ValidationError
+from .models import HistoricalUser
 
 
 class UserViewSet(DjoserUserViewSet):
@@ -166,3 +169,14 @@ class UserViewSet(DjoserUserViewSet):
         settings.EMAIL.activation(self.request, context).send(to)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserHistoryViewSet(
+    NestedViewSetMixin, viewsets.GenericViewSet, mixins.ListModelMixin
+):
+    serializer_class = UserHistorySerializer
+
+    def get_queryset(self):
+        return self.filter_queryset_by_parents_lookups(
+            HistoricalUser.objects.order_by('-history_date').select_related("history_user")
+        )

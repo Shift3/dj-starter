@@ -1,9 +1,9 @@
 from {{ cookiecutter.project_slug }}.core.models import Address
-from django.core.exceptions import ValidationError
-from rest_framework import serializers
+from {{ cookiecutter.project_slug }}.users.serializers import UserSerializer
 from django.db import transaction
-from phonenumber_field.phonenumber import to_python
+from rest_framework import serializers
 from .models import Agent
+from .models import HistoricalAgent
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -71,3 +71,11 @@ class AgentSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class AgentHistorySerializer(serializers.ModelSerializer):
+    history_user = UserSerializer()
+
+    class Meta:
+        model = HistoricalAgent
+        fields = "__all__"

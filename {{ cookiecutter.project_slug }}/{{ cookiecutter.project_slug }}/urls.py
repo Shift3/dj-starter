@@ -4,13 +4,25 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
-from .agents.views import AgentViewSet
-from .users.views import UserViewSet
+from rest_framework_extensions.routers import NestedRouterMixin
+from .agents.views import AgentHistoryViewSet, AgentViewSet
+from .users.views import UserHistoryViewSet, UserViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-router = DefaultRouter()
-router.register(r"agents", AgentViewSet)
-router.register(r"users", UserViewSet)
+
+class DefaultRouterWithNesting(NestedRouterMixin, DefaultRouter):
+    pass
+
+
+router = DefaultRouterWithNesting()
+(
+    router.register(r"agents", AgentViewSet)
+          .register(r"history", AgentHistoryViewSet, "agent_history", parents_query_lookups=["id"])
+)
+(
+    router.register(r"users", UserViewSet)
+          .register(r"history", UserHistoryViewSet, "user_history", parents_query_lookups=["id"])
+)
 
 urlpatterns = [
     path("health-check", include("health_check.urls")),
