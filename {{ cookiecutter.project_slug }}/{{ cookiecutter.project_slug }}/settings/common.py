@@ -251,6 +251,7 @@ DJOSER = {
     "CHANGE_EMAIL_REQUEST_URL": "/auth/confirm-change-email/{uid}/{token}",
     "PERMISSIONS": {
         "user_delete": ["{{ cookiecutter.project_slug }}.users.permissions.IsAdmin"],
+        "user_list": ["{{ cookiecutter.project_slug }}.users.permissions.IsAdmin"],
     },
     "EMAIL": {
         "activation": "{{ cookiecutter.project_slug }}.users.email.ActivationEmail",
