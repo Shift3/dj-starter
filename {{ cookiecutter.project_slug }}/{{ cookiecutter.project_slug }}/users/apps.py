@@ -6,4 +6,4 @@ class CoreConfig(AppConfig):
     name = "{{ cookiecutter.project_slug }}.users"
 
     def ready(self):
-        import {{ cookiecutter.project_slug }}.users.signals
+        from . import signals
