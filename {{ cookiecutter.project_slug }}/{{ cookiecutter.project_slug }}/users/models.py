@@ -3,16 +3,11 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.db import models
-from django.conf import settings
-from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
-from djoser.signals import user_activated
 from easy_thumbnails.files import get_thumbnailer
-from rest_framework.authtoken.models import Token
 from simple_history.models import HistoricalRecords
 from easy_thumbnails.fields import ThumbnailerImageField
 from unique_upload import unique_upload
@@ -106,15 +101,3 @@ class User(AbstractUser, TimeStampedModel):
         if self.profile_picture:
             thumbnailer = get_thumbnailer(self.profile_picture)
             thumbnailer.delete(save=save)
-
-
-@receiver(user_activated)
-def save_activation_date(sender, user, request, **kwargs):
-    if user.activated_at is None:
-        user.activate()
-
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
