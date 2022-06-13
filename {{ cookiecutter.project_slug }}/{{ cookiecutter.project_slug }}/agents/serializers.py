@@ -1,14 +1,15 @@
-from django.core.exceptions import ValidationError
-from rest_framework import serializers
-from django.db import transaction
 from {{ cookiecutter.project_slug }}.core.models import Address
-from phonenumber_field.phonenumber import to_python
+from {{ cookiecutter.project_slug }}.users.serializers import UserSerializer
+from django.db import transaction
+from rest_framework import serializers
 from .models import Agent
+from .models import HistoricalAgent
+
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ('address1', 'address2', 'city', 'state', 'zip_code')
+        fields = ("address1", "address2", "city", "state", "zip_code")
 
 
 class AgentSerializer(serializers.ModelSerializer):
@@ -17,8 +18,14 @@ class AgentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agent
         fields = (
-            'id', 'email', 'name', 'description', 'created', 'modified',
-            'phone_number', 'address'
+            "id",
+            "email",
+            "name",
+            "description",
+            "created",
+            "modified",
+            "phone_number",
+            "address",
         )
 
     def _create_or_update_address(self, instance, address_data):
@@ -40,10 +47,9 @@ class AgentSerializer(serializers.ModelSerializer):
 
         instance.address.save()
 
-
     @transaction.atomic
     def create(self, validated_data):
-        address_data = validated_data.pop('address', None)
+        address_data = validated_data.pop("address", None)
         instance = Agent()
         # Set regular attrs
         for attr, value in validated_data.items():
@@ -56,7 +62,7 @@ class AgentSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address', None)
+        address_data = validated_data.pop("address", None)
         # Set regular attrs
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -65,3 +71,11 @@ class AgentSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class AgentHistorySerializer(serializers.ModelSerializer):
+    history_user = UserSerializer()
+
+    class Meta:
+        model = HistoricalAgent
+        fields = "__all__"

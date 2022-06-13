@@ -3,16 +3,11 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.db import models
-from django.conf import settings
-from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
-from djoser.signals import user_activated
 from easy_thumbnails.files import get_thumbnailer
-from rest_framework.authtoken.models import Token
 from simple_history.models import HistoricalRecords
 from easy_thumbnails.fields import ThumbnailerImageField
 from unique_upload import unique_upload
@@ -21,7 +16,7 @@ from unique_upload import unique_upload
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError(_('The Email must be set'))
+            raise ValueError(_("The Email must be set"))
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -29,11 +24,11 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, **extra_fields):
-        extra_fields['role'] = User.ADMIN
-        extra_fields['activated_at'] = timezone.now()
-        extra_fields['is_staff'] = True
-        extra_fields['is_superuser'] = True
-        extra_fields['is_active'] = True
+        extra_fields["role"] = User.ADMIN
+        extra_fields["activated_at"] = timezone.now()
+        extra_fields["is_staff"] = True
+        extra_fields["is_superuser"] = True
+        extra_fields["is_active"] = True
         return self.create_user(email, password, **extra_fields)
 
 
@@ -57,7 +52,9 @@ class User(AbstractUser, TimeStampedModel):
     first_name = models.CharField(_("first name"), max_length=150)
     last_name = models.CharField(_("last name"), max_length=150)
     username = None
-    profile_picture = ThumbnailerImageField(upload_to=unique_upload, null=True, blank=True)
+    profile_picture = ThumbnailerImageField(
+        upload_to=unique_upload, null=True, blank=True
+    )
     activated_at = models.DateTimeField(null=True, blank=True, default=None)
     is_active = models.BooleanField(
         _("active"),
@@ -69,18 +66,18 @@ class User(AbstractUser, TimeStampedModel):
     )
 
     objects = UserManager()
-    history = HistoricalRecords()
+    history = HistoricalRecords(excluded_fields=['password'])
 
     def __str__(self):
         return self.email
 
     class Meta:
-        ordering = ['email']
+        ordering = ["email"]
         indexes = [
-            models.Index(fields=['email']),
-            models.Index(fields=['first_name']),
-            models.Index(fields=['last_name']),
-            models.Index(fields=['role']),
+            models.Index(fields=["email"]),
+            models.Index(fields=["first_name"]),
+            models.Index(fields=["last_name"]),
+            models.Index(fields=["role"]),
         ]
 
     def activate(self):
@@ -103,15 +100,4 @@ class User(AbstractUser, TimeStampedModel):
     def delete_profile_picture(self, save):
         if self.profile_picture:
             thumbnailer = get_thumbnailer(self.profile_picture)
-            thumbnailer.delete(save=False)
-
-
-@receiver(user_activated)
-def save_activation_date(sender, user, request, **kwargs):
-    if user.activated_at is None:
-        user.activate()
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+            thumbnailer.delete(save=save)

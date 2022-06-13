@@ -7,13 +7,15 @@ import easy_thumbnails.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0010_historicaluser_activated_at_user_activated_at'),
+        ("users", "0010_historicaluser_activated_at_user_activated_at"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='profile_picture',
-            field=easy_thumbnails.fields.ThumbnailerImageField(blank=True, null=True, upload_to='uploads/profile-pictures/'),
+            model_name="user",
+            name="profile_picture",
+            field=easy_thumbnails.fields.ThumbnailerImageField(
+                blank=True, null=True, upload_to="uploads/profile-pictures/"
+            ),
         ),
     ]

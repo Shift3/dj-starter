@@ -6,28 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0007_user_profile_picture'),
+        ("users", "0007_user_profile_picture"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='user',
-            options={'ordering': ['email']},
+            name="user",
+            options={"ordering": ["email"]},
         ),
         migrations.AddIndex(
-            model_name='user',
-            index=models.Index(fields=['email'], name='users_user_email_6f2530_idx'),
+            model_name="user",
+            index=models.Index(fields=["email"], name="users_user_email_6f2530_idx"),
         ),
         migrations.AddIndex(
-            model_name='user',
-            index=models.Index(fields=['first_name'], name='users_user_first_n_0186c7_idx'),
+            model_name="user",
+            index=models.Index(
+                fields=["first_name"], name="users_user_first_n_0186c7_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='user',
-            index=models.Index(fields=['last_name'], name='users_user_last_na_4e2935_idx'),
+            model_name="user",
+            index=models.Index(
+                fields=["last_name"], name="users_user_last_na_4e2935_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='user',
-            index=models.Index(fields=['role'], name='users_user_role_36d76d_idx'),
+            model_name="user",
+            index=models.Index(fields=["role"], name="users_user_role_36d76d_idx"),
         ),
     ]

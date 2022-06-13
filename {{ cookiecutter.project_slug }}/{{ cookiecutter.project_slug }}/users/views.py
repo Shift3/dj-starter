@@ -1,10 +1,12 @@
-from easy_thumbnails.files import get_thumbnailer
+from rest_framework_extensions.mixins import NestedViewSetMixin
 from {{ cookiecutter.project_slug }}.users.email import ChangeEmailRequestEmail
+from {{ cookiecutter.project_slug }}.core.filters import (
+    CamelCaseDjangoFilterBackend,
+    CamelCaseOrderingFilter,
+)
 from djoser.serializers import UidAndTokenSerializer
-from {{ cookiecutter.project_slug }}.users.models import User
 from django.db import transaction
-from rest_framework import filters
-from rest_framework import status
+from rest_framework import filters, status, viewsets, mixins
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -13,10 +15,15 @@ from djoser.views import UserViewSet as DjoserUserViewSet
 from djoser.conf import settings
 from djoser import signals
 from djoser.compat import get_user_email
-from {{ cookiecutter.project_slug }}.core.filters import CamelCaseDjangoFilterBackend, CamelCaseOrderingFilter
-from .serializers import ChangeEmailRequestSerializer, InviteUserSerializer, ProfilePictureSerializer, UserSerializer
+from .serializers import (
+    ChangeEmailRequestSerializer,
+    InviteUserSerializer,
+    ProfilePictureSerializer,
+    UserSerializer,
+    UserHistorySerializer
+)
 from .permissions import IsAdmin, IsUserOrAdmin
-from rest_framework.exceptions import ValidationError
+from .models import HistoricalUser
 
 
 class UserViewSet(DjoserUserViewSet):
@@ -27,24 +34,29 @@ class UserViewSet(DjoserUserViewSet):
         CamelCaseDjangoFilterBackend,
     )
     filterset_fields = {
-        'email': ['icontains', 'startswith', 'endswith', 'exact'],
-        'last_name': ['icontains', 'startswith', 'endswith', 'exact'],
-        'first_name': ['icontains', 'startswith', 'endswith', 'exact'],
+        "email": ["icontains", "startswith", "endswith", "exact"],
+        "last_name": ["icontains", "startswith", "endswith", "exact"],
+        "first_name": ["icontains", "startswith", "endswith", "exact"],
     }
-    search_fields = ['email', 'last_name', 'first_name']
+    search_fields = ["email", "last_name", "first_name"]
 
     def perform_update(self, serializer):
         serializer.save()
 
-    @action(detail=False, methods=['post'], serializer_class=ChangeEmailRequestSerializer, permission_classes=[IsAuthenticated, IsUserOrAdmin])
+    @action(
+        detail=False,
+        methods=["post"],
+        serializer_class=ChangeEmailRequestSerializer,
+        permission_classes=[IsAuthenticated, IsUserOrAdmin],
+    )
     def change_email_request(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         user = request.user
         self.check_object_permissions(request, user)
-        
-        user.new_email = serializer.data['email']
+
+        user.new_email = serializer.data["email"]
         user.save()
 
         context = {"user": user}
@@ -53,7 +65,12 @@ class UserViewSet(DjoserUserViewSet):
 
         return Response(status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'], serializer_class=UidAndTokenSerializer, permission_classes=[IsUserOrAdmin])
+    @action(
+        detail=False,
+        methods=["post"],
+        serializer_class=UidAndTokenSerializer,
+        permission_classes=[IsUserOrAdmin],
+    )
     def confirm_change_email(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -68,7 +85,7 @@ class UserViewSet(DjoserUserViewSet):
 
         return Response(status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'], permission_classes=[IsUserOrAdmin])
+    @action(detail=True, methods=["post"], permission_classes=[IsUserOrAdmin])
     def resend_change_email_request_email(self, request, id=None):
         user = self.get_object()
         if user.new_email is not None:
@@ -80,8 +97,11 @@ class UserViewSet(DjoserUserViewSet):
 
     @action(
         detail=True,
-        methods=['post'],
-        parser_classes = (FormParser, MultiPartParser,),
+        methods=["post"],
+        parser_classes=(
+            FormParser,
+            MultiPartParser,
+        ),
     )
     def profile_picture(self, request, id=None):
         serializer = ProfilePictureSerializer(data=request.data)
@@ -91,10 +111,10 @@ class UserViewSet(DjoserUserViewSet):
         # Delete old profile picture if it exists
         user.delete_profile_picture(save=False)
 
-        user.profile_picture = request.data['file']
+        user.profile_picture = request.data["file"]
         user.save()
 
-        serialized_user = UserSerializer(user, context={'request': request})
+        serialized_user = UserSerializer(user, context={"request": request})
         return Response(data=serialized_user.data, status=status.HTTP_200_OK)
 
     @profile_picture.mapping.delete
@@ -103,9 +123,8 @@ class UserViewSet(DjoserUserViewSet):
 
         user.delete_profile_picture(save=True)
 
-        serialized_user = UserSerializer(user, context={'request': request})
+        serialized_user = UserSerializer(user, context={"request": request})
         return Response(data=serialized_user.data, status=status.HTTP_200_OK)
-
 
     # Overrides djoser provided activation view with our own, which
     # sets the users password during activation.
@@ -115,7 +134,7 @@ class UserViewSet(DjoserUserViewSet):
         serializer.is_valid(raise_exception=True)
         user = serializer.user
         user.activate()
-        user.set_password(serializer.data['password'])
+        user.set_password(serializer.data["password"])
         user.save()
 
         signals.user_activated.send(
@@ -131,7 +150,7 @@ class UserViewSet(DjoserUserViewSet):
 
     @action(
         detail=False,
-        methods=['post'],
+        methods=["post"],
         permission_classes=[IsAdmin],
         serializer_class=InviteUserSerializer,
     )
@@ -150,3 +169,14 @@ class UserViewSet(DjoserUserViewSet):
         settings.EMAIL.activation(self.request, context).send(to)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserHistoryViewSet(
+    NestedViewSetMixin, viewsets.GenericViewSet, mixins.ListModelMixin
+):
+    serializer_class = UserHistorySerializer
+
+    def get_queryset(self):
+        return self.filter_queryset_by_parents_lookups(
+            HistoricalUser.objects.order_by('-history_date').select_related("history_user")
+        )
