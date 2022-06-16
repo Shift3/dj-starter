@@ -34,9 +34,9 @@ class UserViewSet(DjoserUserViewSet):
         CamelCaseDjangoFilterBackend,
     )
     filterset_fields = {
-        "email": ["icontains", "startswith", "endswith", "exact"],
-        "last_name": ["icontains", "startswith", "endswith", "exact"],
-        "first_name": ["icontains", "startswith", "endswith", "exact"],
+        "email": ["icontains", "startswith", "endswith", "iexact"],
+        "last_name": ["icontains", "startswith", "endswith", "iexact"],
+        "first_name": ["icontains", "startswith", "endswith", "iexact"],
     }
     search_fields = ["email", "last_name", "first_name"]
 
