@@ -12,6 +12,8 @@ from simple_history.models import HistoricalRecords
 from easy_thumbnails.fields import ThumbnailerImageField
 from unique_upload import unique_upload
 
+from {{ cookiecutter.project_slug }}.notification_system.models import DatabaseNotification
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -66,7 +68,7 @@ class User(AbstractUser, TimeStampedModel):
     )
 
     objects = UserManager()
-    history = HistoricalRecords(excluded_fields=['password'])
+    history = HistoricalRecords(excluded_fields=["password"])
 
     def __str__(self):
         return self.email

@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 from rest_framework_extensions.routers import NestedRouterMixin
+
+from .core.views import NotificationViewSet
 from .agents.views import AgentHistoryViewSet, AgentViewSet
 from .users.views import UserHistoryViewSet, UserViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -16,13 +18,16 @@ class DefaultRouterWithNesting(NestedRouterMixin, DefaultRouter):
 
 router = DefaultRouterWithNesting()
 (
-    router.register(r"agents", AgentViewSet)
-          .register(r"history", AgentHistoryViewSet, "agent_history", parents_query_lookups=["id"])
+    router.register(r"agents", AgentViewSet).register(
+        r"history", AgentHistoryViewSet, "agent_history", parents_query_lookups=["id"]
+    )
 )
 (
-    router.register(r"users", UserViewSet)
-          .register(r"history", UserHistoryViewSet, "user_history", parents_query_lookups=["id"])
+    router.register(r"users", UserViewSet).register(
+        r"history", UserHistoryViewSet, "user_history", parents_query_lookups=["id"]
+    )
 )
+router.register(r"notifications", NotificationViewSet, "notification")
 
 urlpatterns = [
     path("health-check", include("health_check.urls")),

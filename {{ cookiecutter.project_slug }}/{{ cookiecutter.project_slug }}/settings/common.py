@@ -1,6 +1,7 @@
 import os
 import socket
 import dj_database_url
+import redis
 import environ
 from os.path import join
 
@@ -46,10 +47,12 @@ INSTALLED_APPS = (
     "simple_history",
     "phonenumber_field",
     "easy_thumbnails",
+    "django_dramatiq",
     # Your apps
     "{{ cookiecutter.project_slug }}.core",
     "{{ cookiecutter.project_slug }}.users",
     "{{ cookiecutter.project_slug }}.agents",
+    "{{ cookiecutter.project_slug }}.notification_system",
 )
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
@@ -268,4 +271,21 @@ DJOSER = {
     },
 }
 
+# Tasks
+DRAMATIQ_REDIS_URL = env.str("REDIS_URL", "redis://redis:6379/0")
+DRAMATIQ_BROKER = {
+    "BROKER": "dramatiq.brokers.redis.RedisBroker",
+    "OPTIONS": {
+        "connection_pool": redis.ConnectionPool.from_url(DRAMATIQ_REDIS_URL),
+    },
+    "MIDDLEWARE": [
+        "dramatiq.middleware.AgeLimit",
+        "dramatiq.middleware.TimeLimit",
+        "dramatiq.middleware.Retries",
+        "django_dramatiq.middleware.AdminMiddleware",
+        "django_dramatiq.middleware.DbConnectionsMiddleware",
+    ],
+}
+
+# Simple History
 SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True

@@ -78,4 +78,4 @@ class AgentHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HistoricalAgent
-        fields = "__all__"
+        fields = ["__all__"]

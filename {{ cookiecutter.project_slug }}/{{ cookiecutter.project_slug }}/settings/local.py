@@ -3,10 +3,9 @@ from .common import env
 
 DEBUG = True
 
-INSTALLED_APPS += ("debug_toolbar", "mail_panel")
+INSTALLED_APPS += ("debug_toolbar",)
 
 DEBUG_TOOLBAR_PANELS = [
-    "mail_panel.panels.MailToolbarPanel",
     "debug_toolbar.panels.versions.VersionsPanel",
     "debug_toolbar.panels.sql.SQLPanel",
     "debug_toolbar.panels.timer.TimerPanel",
@@ -21,9 +20,9 @@ DEBUG_TOOLBAR_PANELS = [
 MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 
 # Mail
-EMAIL_HOST = "localhost"
+EMAIL_HOST = "mailhog"
 EMAIL_PORT = 1025
-EMAIL_BACKEND = "mail_panel.backend.MailToolbarBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
