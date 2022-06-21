@@ -28,7 +28,7 @@ class AgentViewSet(viewsets.ModelViewSet):
     filterset_fields = {
         "email": ["icontains", "startswith", "endswith", "iexact"],
         "name": ["icontains", "startswith", "endswith", "iexact"],
-        "phone_number": ["icontains", "startswith", "endswith", "exact"],
+        "phone_number": ["icontains", "startswith", "endswith", "iexact"],
     }
     search_fields = ["email", "name", "phone_number"]
 
