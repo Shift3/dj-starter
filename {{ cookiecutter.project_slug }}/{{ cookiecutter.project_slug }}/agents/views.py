@@ -26,9 +26,9 @@ class AgentViewSet(viewsets.ModelViewSet):
         CamelCaseDjangoFilterBackend,
     )
     filterset_fields = {
-        "email": ["icontains", "startswith", "endswith", "iexact"],
-        "name": ["icontains", "startswith", "endswith", "iexact"],
-        "phone_number": ["icontains", "startswith", "endswith", "iexact"],
+        "email": ["icontains", "istartswith", "iendswith", "iexact"],
+        "name": ["icontains", "istartswith", "iendswith", "iexact"],
+        "phone_number": ["icontains", "istartswith", "iendswith", "iexact"],
     }
     search_fields = ["email", "name", "phone_number"]
 
