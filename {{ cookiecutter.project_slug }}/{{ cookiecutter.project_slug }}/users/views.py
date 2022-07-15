@@ -37,6 +37,8 @@ class UserViewSet(DjoserUserViewSet):
         "email": ["icontains", "istartswith", "iendswith", "iexact"],
         "last_name": ["icontains", "istartswith", "iendswith", "iexact"],
         "first_name": ["icontains", "istartswith", "iendswith", "iexact"],
+        "role": ["in", "isnull"],
+        "activated_at": ["gt"],
     }
     search_fields = ["email", "last_name", "first_name"]
 
