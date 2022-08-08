@@ -4,6 +4,8 @@ from {{ cookiecutter.project_slug }}.core.filters import (
     CamelCaseDjangoFilterBackend,
     CamelCaseOrderingFilter,
 )
+from {{ cookiecutter.project_slug }}.core.serializers import serialize_email
+from {{ cookiecutter.project_slug }}.core.tasks import send_email_later
 from djoser.serializers import UidAndTokenSerializer
 from django.db import transaction
 from rest_framework import filters, status, viewsets, mixins
@@ -63,7 +65,8 @@ class UserViewSet(DjoserUserViewSet):
 
         context = {"user": user}
         to = [user.new_email]
-        ChangeEmailRequestEmail(request, context).send(to)
+        serialized_email = serialize_email(ChangeEmailRequestEmail(request, context), to)
+        send_email_later.send(serialized_email)
 
         return Response(status=status.HTTP_200_OK)
 
@@ -93,7 +96,8 @@ class UserViewSet(DjoserUserViewSet):
         if user.new_email is not None:
             context = {"user": user}
             to = [user.new_email]
-            ChangeEmailRequestEmail(request, context).send(to)
+            serialized_email = serialize_email(ChangeEmailRequestEmail(request, context), to)
+            send_email_later.send(serialized_email)
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -146,7 +150,8 @@ class UserViewSet(DjoserUserViewSet):
         if settings.SEND_CONFIRMATION_EMAIL:
             context = {"user": user}
             to = [get_user_email(user)]
-            settings.EMAIL.confirmation(self.request, context).send(to)
+            serialized_email = serialize_email(settings.EMAIL.confirmation(self.request, context), to)
+            send_email_later.send(serialized_email)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -168,7 +173,8 @@ class UserViewSet(DjoserUserViewSet):
         # Send invitation email
         context = {"user": user}
         to = [user.email]
-        settings.EMAIL.activation(self.request, context).send(to)
+        serialized_email = serialize_email(settings.EMAIL.activation(self.request, context), to)
+        send_email_later.send(serialized_email)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 

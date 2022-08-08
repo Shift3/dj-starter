@@ -1,12 +1,14 @@
 import pytest
-from {{ cookiecutter.project_slug }}.users.models import User
-from rest_framework.test import APITestCase
-from .factories import UserFactory
 from django.core import mail
+from django_dramatiq.test import DramatiqTestCase
+from rest_framework.test import APITestCase
+
+from ..models import User
+from .factories import UserFactory
 
 
 @pytest.mark.django_db
-class UserTests(APITestCase):
+class UserTests(APITestCase, DramatiqTestCase):
     def test_registration(self):
         self.client.post(
             "/users/",
@@ -30,6 +32,9 @@ class UserTests(APITestCase):
             },
         )
 
+        self.broker.join("default")
+        self.worker.join()
+
         assert len(mail.outbox) > 0
         assert response.status_code == 200
 
@@ -46,6 +51,9 @@ class UserTests(APITestCase):
                 "role": User.USER,
             },
         )
+
+        self.broker.join("default")
+        self.worker.join()
 
         assert len(mail.outbox) > 0
         assert response.status_code == 204
@@ -64,6 +72,10 @@ class UserTests(APITestCase):
             },
         )
 
+        self.broker.join("default")
+        self.worker.join()
+
         assert len(mail.outbox) == 0
         assert "email" in response.json()
         assert response.status_code == 400
+
