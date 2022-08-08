@@ -1,5 +1,5 @@
-from .common import *
-from .common import env
+from .base import *
+from .base import env
 
 
 SECRET_KEY = "test"

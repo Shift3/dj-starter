@@ -34,6 +34,6 @@ eb_env_variables = {
   CLIENT_URL           = "{{ cookiecutter.staging_client_url }}"
   PORT                 = "8000"
   DJANGO_SECRET_KEY    = "{{ random_ascii_string(32) }}"
-  DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_slug }}.settings.production"
+  DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_slug }}.settings.staging"
   SEEDED_USER_EMAIL    = "{{ cookiecutter.admin_email }}"
 }

@@ -1,5 +1,5 @@
-from .common import *
-from .common import env
+from .base import *
+from .base import env
 
 # Site
 # https://docs.djangoproject.com/en/2.0/ref/settings/#allowed-hosts
