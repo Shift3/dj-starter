@@ -127,11 +127,11 @@ commands:
             monitor_mode = false
 
             [newrelic:staging]
-            app_name = Django Starter Demo (staging)
+            app_name = $PROJECT_NAME (staging)
             monitor_mode = $([ "$CIRCLE_BRANCH" = "develop" ] && echo "true" || echo "false")
 
             [newrelic:production]
-            app_name = Django Starter Demo (production)
+            app_name = $PROJECT_NAME (production)
             monitor_mode = $([ "$CIRCLE_BRANCH" = "main" ] && echo "true" || echo "false")
             EOF
             fi
