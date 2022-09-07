@@ -102,7 +102,7 @@ commands:
             cat \<<-EOF > newrelic.ini
             [newrelic]
             license_key = $NEW_RELIC_LICENSE_KEY
-            app_name = $PROJECT_NAME ($([ "$CIRCLE_BRANCH" = "develop" ] && echo "staging" || echo "production"))
+            app_name = {{ cookiecutter.project_name }} ($([ "$CIRCLE_BRANCH" = "develop" ] && echo "staging" || echo "production"))
             distributed_tracing.enabled = true
             monitor_mode = true
             log_level = info
@@ -127,11 +127,11 @@ commands:
             monitor_mode = false
 
             [newrelic:staging]
-            app_name = $PROJECT_NAME (staging)
+            app_name = {{ cookiecutter.project_name }} (staging)
             monitor_mode = $([ "$CIRCLE_BRANCH" = "develop" ] && echo "true" || echo "false")
 
             [newrelic:production]
-            app_name = $PROJECT_NAME (production)
+            app_name = {{ cookiecutter.project_name }} (production)
             monitor_mode = $([ "$CIRCLE_BRANCH" = "main" ] && echo "true" || echo "false")
             EOF
             fi
