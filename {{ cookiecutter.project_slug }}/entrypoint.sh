@@ -10,4 +10,7 @@ set -e
 ./manage.py createsu
 
 # Run the server using gunicorn
-newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - {{ cookiecutter.project_slug }}.wsgi:application
+NEW_RELIC_CONFIG_FILE=newrelic.ini \
+	newrelic-admin run-program gunicorn \
+	--bind 0.0.0.0:$PORT \
+	--access-logfile - {{ cookiecutter.project_slug }}.wsgi:application
