@@ -29,12 +29,11 @@ default_tags = {
 
 # Define the environment variables required for your live environment.
 eb_env_variables = {
-  APPLICATION_NAME       = "{{ cookiecutter.project_name }}"
-  AWS_REGION             = "us-west-2"
-  CLIENT_URL             = "{{ cookiecutter.staging_client_url }}"
-  PORT                   = "8000"
-  DJANGO_SECRET_KEY      = "{{ random_ascii_string(32) }}"
+  APPLICATION_NAME     = "{{ cookiecutter.project_name }}"
+  AWS_REGION           = "us-west-2"
+  CLIENT_URL           = "{{ cookiecutter.staging_client_url }}"
+  PORT                 = "8000"
+  DJANGO_SECRET_KEY    = "{{ random_ascii_string(32) }}"
   DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_slug }}.settings.prod"
-  SEEDED_USER_EMAIL      = "{{ cookiecutter.admin_email }}"
-  NEW_RELIC_ENVIRONMENT  = "production"
+  SEEDED_USER_EMAIL    = "{{ cookiecutter.admin_email }}"
 }

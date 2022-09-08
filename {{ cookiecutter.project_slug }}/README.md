@@ -213,17 +213,6 @@ The following environment variables are required to be set within the CircleCI P
 
 Once all of these are setup, commits to the `develop` branch should automatically deploy to your staging infrastructure. For more details on the deployment process, or if you need to customize it to fit your needs, check out the [`.cirleci/config.yml`](.circleci/config.yml) file.
 
-#### Enabling NewRelic Application Monitoring
-
-NewRelic is a free application monitoring tool that increases long term
-maintainability of the application. To enable it simply create an
-account [here](https://newrelic.com/) and set:
-
-* `NEW_RELIC_LICENSE_KEY`
-  - The new relic license key, found after signing up for a free
-    newrelic account
-  - a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1NRAL
-
 ### Deploying to Production
 
 Production deploys from the `main` branch, and uses the same set of environment variables as staging just with `PRODUCTION` instead of `STAGING` in the names. The list of those variables follow:

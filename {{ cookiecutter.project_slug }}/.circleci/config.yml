@@ -31,15 +31,6 @@ version: 2.1
 # --------------------------------------------------------------------
 # STAGING_AWS_ROLE_ARN                  arn:aws:iam::008036621198:role/SuperDevAssumeRole
 # PRODUCTION_AWS_ROLE_ARN               arn:aws:iam::008036621198:role/SuperDevAssumeRole
-#
-#
-# Optionally add a NewRelic free license to enable application
-# monitoring using the free excellent tooling from new relic.
-# https://newrelic.com/
-#
-# name                                  example value
-# --------------------------------------------------------------------
-# NEW_RELIC_LICENSE_KEY                 a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1NRAL
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.6
@@ -94,46 +85,6 @@ commands:
 
             if [ -n "${<<parameters.aws_role_arn_env>>}" ]; then
               echo "role_arn = ${<<parameters.aws_role_arn_env>>}" >> $HOME/.aws/config
-            fi
-      - run:
-          name: Setup NewRelic config filters
-          command: |-
-            if [ -n "$NEW_RELIC_LICENSE_KEY" ]; then
-            cat \<<-EOF > newrelic.ini
-            [newrelic]
-            license_key = $NEW_RELIC_LICENSE_KEY
-            app_name = {{ cookiecutter.project_name }} ($([ "$CIRCLE_BRANCH" = "develop" ] && echo "staging" || echo "production"))
-            distributed_tracing.enabled = true
-            monitor_mode = true
-            log_level = info
-            ssl = true
-            high_security = false
-            transaction_tracer.enabled = true
-            transaction_tracer.transaction_threshold = apdex_f
-            transaction_tracer.record_sql = obfuscated
-            transaction_tracer.stack_trace_threshold = 0.5
-            transaction_tracer.explain_enabled = true
-            transaction_tracer.explain_threshold = 0.5
-            transaction_tracer.function_trace =
-            error_collector.enabled = true
-            error_collector.ignore_errors =
-            browser_monitoring.auto_instrument = true
-            thread_profiler.enabled = true
-
-            [newrelic:development]
-            monitor_mode = false
-
-            [newrelic:test]
-            monitor_mode = false
-
-            [newrelic:staging]
-            app_name = {{ cookiecutter.project_name }} (staging)
-            monitor_mode = $([ "$CIRCLE_BRANCH" = "develop" ] && echo "true" || echo "false")
-
-            [newrelic:production]
-            app_name = {{ cookiecutter.project_name }} (production)
-            monitor_mode = $([ "$CIRCLE_BRANCH" = "main" ] && echo "true" || echo "false")
-            EOF
             fi
       - run:
           name: Build the docker image
