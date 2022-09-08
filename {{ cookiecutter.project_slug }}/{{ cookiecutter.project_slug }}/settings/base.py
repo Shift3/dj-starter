@@ -203,6 +203,10 @@ AUTH_USER_MODEL = "users.User"
 # Phone number setup
 PHONENUMBER_DEFAULT_REGION = "US"
 
+# Shell Plus (django-extensions)
+# https://django-extensions.readthedocs.io/en/latest/shell_plus.html#
+SHELL_PLUS_PRINT_SQL_TRUNCATE = None
+
 # Easy Thumbnailer
 THUMBNAIL_ALIASES = {
     # Global Aliases
