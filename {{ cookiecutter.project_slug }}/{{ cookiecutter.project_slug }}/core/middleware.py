@@ -59,4 +59,4 @@ class TokenInHeaderMiddleware:
             if token_key:
                 scope['user'] = await get_user(token_key)
 
-        await self.inner(scope, receive, send)
+        return await self.inner(scope, receive, send)
