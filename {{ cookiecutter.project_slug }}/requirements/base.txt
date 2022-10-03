@@ -33,4 +33,4 @@ django-storages==1.12.3
 boto3==1.21.13
 
 # Health check for AWS
-django-health-check==3.16.5
+django-health-check==3.17.0
