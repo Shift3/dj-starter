@@ -42,10 +42,8 @@ module "application" {
     {
       DEPLOYED_APPLICATION_NAME = var.application_name, 
       S3_BUCKET = local.s3_bucket_name,
-      REDIS_URL = format(
-        "redis://%s:%s/0",
-        aws_elasticache_cluster.main.cache_nodes.0.address,
-        aws_elasticache_cluster.main.cache_nodes.0.port
+      REDIS_HOST = aws_elasticache_cluster.main.cache_nodes.0.address,
+      REDIS_PORT = aws_elasticache_cluster.main.cache_nodes.0.port
       ),
     }
   )
