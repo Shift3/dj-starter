@@ -29,7 +29,7 @@ locals {
 }
 
 module "application" {
-  source                        = "git@github.com:Shift3/terraform-modules.git//modules/eb-s3-postgres?ref=feature/ioc"
+  source                        = "git@github.com:Shift3/terraform-modules.git//modules/eb-s3-postgres"
   s3_bucket_name                = local.s3_bucket_name
   application_name              = var.application_name
   aws_region                    = var.aws_region
