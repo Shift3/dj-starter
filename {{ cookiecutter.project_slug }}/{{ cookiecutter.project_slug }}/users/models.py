@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from easy_thumbnails.files import get_thumbnailer
+from phonenumber_field.modelfields import PhoneNumberField
 from simple_history.models import HistoricalRecords
 from easy_thumbnails.fields import ThumbnailerImageField
 from unique_upload import unique_upload
@@ -55,6 +56,7 @@ class User(AbstractUser, TimeStampedModel):
     profile_picture = ThumbnailerImageField(
         upload_to=unique_upload, null=True, blank=True
     )
+    phone_number = PhoneNumberField(null=True, blank=True)
     activated_at = models.DateTimeField(null=True, blank=True, default=None)
     is_active = models.BooleanField(
         _("active"),
@@ -66,7 +68,10 @@ class User(AbstractUser, TimeStampedModel):
     )
 
     objects = UserManager()
-    history = HistoricalRecords(excluded_fields=['password'])
+    history = HistoricalRecords(excluded_fields=["password"])
+
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
 
     def __str__(self):
         return self.email

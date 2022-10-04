@@ -2,6 +2,7 @@
 pytz==2022.1
 Django==4.1.0
 gunicorn==20.1.0
+uvicorn[standard]==0.16.0
 newrelic==7.6.0.173
 Pillow==9.1.1
 django_cors_headers==3.13.0
@@ -32,5 +33,20 @@ drf-extensions==0.7.1
 django-storages==1.13.1
 boto3==1.24.85
 
+# Async, email sending and texting.
+dramatiq[redis, watch]==1.13.0
+django-dramatiq==0.11.0
+hiredis==2.0.0
+channels==3.0.5
+twilio==7.10.0
+
+# Procfile
+honcho==1.1.0
+
 # Health check for AWS
 django-health-check==3.16.5
+
+{%- if cookiecutter.include_notifications == "yes" %}
+# Notification Dependencies
+django-eventstream==4.4.1
+{%- endif %}

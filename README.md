@@ -39,6 +39,67 @@ The starter project is **Batteries Included**, meaning it comes with lots of hel
 * [easy_thumbnails](https://github.com/SmileyChris/easy-thumbnails) which can automatically thumbnail user uploaded image files for optimized display on the frontend.
 * [djangorestframework-camel-case](https://github.com/vbabiy/djangorestframework-camel-case) ensure that the REST api we provide uses camelcase, even though it's django conventions to use snake case. This package allows us to use snake case in django and still interact with camel case (which is standard on the frontend)
 * [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/) which can be used in conjunction with the DRF Browsable API to get a deeper look at what SQL queries certain API endpoints are running, along with other helpful information in development.
-* [Django Debug Toolbar - Mail Panel](https://github.com/scuml/django-mail-panel) for viewing emails "sent" in development while not actually sending emails while developing the software.
+* [Mailhog](https://github.com/mailhog/MailHog) for viewing emails "sent" in development while not actually sending emails while developing the software.
 * [CircleCI Config](https://circleci.com/) for automatic testing and deployments to both staging and production
 
+## Optional Features
+
+During generation, you will be able to select optional features to be
+included. Currently we have a single optional feature:
+
+### Notifications (In-App, Email, and Text)
+
+Enable this feature during generation if you want to be able to send
+notifications to users of the web application. Enabling this feature
+allows you to define notification types and send them easily.
+
+Notifications are sent via
+[SSE](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events),
+which is a somewhat newer technology that allows you to push events
+directly to consuming clients.
+
+We include an example notification.
+
+```python
+class AgentCreatedNotification(BaseNotification):
+    backends = [DatabaseBackend, EmailBackend, SMSBackend]
+
+    def as_database(self, user):
+        agent = Agent.objects.get(pk=self.context["agent_id"])
+        created_by = User.objects.get(pk=self.context["user_id"])
+
+        return {
+            "agent_name": agent.name,
+            "user_name": created_by.full_name(),
+            **self.context
+        }
+
+    def as_email(self, user):
+        return BaseEmailMessage(
+            subject="A new agent has been created",
+            template_name="notifications/agent_created_notification_email.html",
+            context={
+                "user": user,
+                "agent": Agent.objects.get(pk=self.context["agent_id"]),
+                "created_by": User.objects.get(pk=self.context["user_id"]),
+            },
+        )
+
+    def as_sms(self, user):
+        created_by = User.objects.get(pk=self.context["user_id"])
+        return "Hello {}. A new agent has been created by {}" % (
+            user.full_name(), created_by.full_name()
+        )
+```
+
+which is sent like so:
+
+```python
+Notification.send(
+    AgentCreatedNotification({
+        "agent_id": instance.id,
+        "user_id": "example"
+    }),
+    User.objects.filter(role=User.ADMIN) # list of users to send the notifications to
+)
+```

@@ -15,14 +15,24 @@ class DefaultRouterWithNesting(NestedRouterMixin, DefaultRouter):
 
 
 router = DefaultRouterWithNesting()
-(
-    router.register(r"agents", AgentViewSet)
-          .register(r"history", AgentHistoryViewSet, "agent_history", parents_query_lookups=["id"])
+router.register(r"agents", AgentViewSet).register(
+    r"history",
+    AgentHistoryViewSet,
+    "agent_history",
+    parents_query_lookups=["id"]
 )
-(
-    router.register(r"users", UserViewSet)
-          .register(r"history", UserHistoryViewSet, "user_history", parents_query_lookups=["id"])
+router.register(r"users", UserViewSet).register(
+    r"history",
+    UserHistoryViewSet,
+    "user_history",
+    parents_query_lookups=["id"]
 )
+
+{%- if cookiecutter.include_notifications == "yes" %}
+# Notification specific
+from .notification_system.views import NotificationViewSet
+router.register(r"notifications", NotificationViewSet, "notification")
+{%- endif %}
 
 urlpatterns = [
     path("health-check", include("health_check.urls")),

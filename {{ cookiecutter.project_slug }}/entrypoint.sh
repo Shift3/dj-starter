@@ -9,8 +9,5 @@ set -e
 # in settings.SEEDED_USER_EMAIL
 ./manage.py createsu
 
-# Run the server using gunicorn
-NEW_RELIC_CONFIG_FILE=newrelic.ini \
-	newrelic-admin run-program gunicorn \
-	--bind 0.0.0.0:$PORT \
-	--access-logfile - {{ cookiecutter.project_slug }}.wsgi:application
+# Run server and any workers
+honcho start -f Procfile.prod
