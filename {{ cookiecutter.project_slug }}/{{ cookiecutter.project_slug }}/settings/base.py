@@ -64,12 +64,12 @@ INSTALLED_APPS = (
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
 MIDDLEWARE = (
+    "corsheaders.middleware.CorsMiddleware",
 {%- if cookiecutter.include_notifications == "yes" %}
     "django_grip.GripMiddleware",
 {%- endif %}
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
