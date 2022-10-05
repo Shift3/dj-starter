@@ -20,6 +20,8 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
     "x-auth-token",
 ]
+SESSION_COOKIE_SAMESITE = None
+
 
 # Storage locaton for uploaded files and static files is S3.
 # http://django-storages.readthedocs.org/en/latest/index.html
