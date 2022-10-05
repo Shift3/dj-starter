@@ -44,7 +44,6 @@ module "application" {
       S3_BUCKET = local.s3_bucket_name,
       REDIS_HOST = aws_elasticache_cluster.main.cache_nodes.0.address,
       REDIS_PORT = aws_elasticache_cluster.main.cache_nodes.0.port
-      ),
     }
   )
   environment                   = local.workspace_name

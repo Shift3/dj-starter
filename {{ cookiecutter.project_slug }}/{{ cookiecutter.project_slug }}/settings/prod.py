@@ -7,22 +7,6 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS += ("gunicorn",)
 CORS_ALLOWED_ORIGINS = [CLIENT_URL]
 
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "cookie",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-    "x-auth-token",
-]
-SESSION_COOKIE_SAMESITE = None
-
-
 # Storage locaton for uploaded files and static files is S3.
 # http://django-storages.readthedocs.org/en/latest/index.html
 INSTALLED_APPS += ("storages",)

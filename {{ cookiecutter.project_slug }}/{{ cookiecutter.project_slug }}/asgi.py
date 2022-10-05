@@ -19,9 +19,9 @@ from {{ cookiecutter.project_slug }}.core.middleware import TokenInHeaderMiddlew
 application = ProtocolTypeRouter({
     "http": URLRouter([
 {%- if cookiecutter.include_notifications == "yes" %}
-        re_path(r"^events/(?P<channel>[\w-]+)/", TokenInHeaderMiddleware(
+        re_path(r"^events/(?P<channel>[\w-]+)/",
             URLRouter(django_eventstream.routing.urlpatterns)
-        )),
+        ),
 {%- endif %}
         re_path(r"", django_asgi_app),
     ]),
