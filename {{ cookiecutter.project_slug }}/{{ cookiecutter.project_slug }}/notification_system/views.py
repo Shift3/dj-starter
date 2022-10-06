@@ -1,6 +1,8 @@
+from datetime import datetime, timedelta
+from django.conf import settings
 from django.utils import timezone
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -11,6 +13,22 @@ from {{ cookiecutter.project_slug }}.core.filters import (
 from {{ cookiecutter.project_slug }}.core.pagination import LinkedCursorPagination
 from {{ cookiecutter.project_slug }}.core.serializers import NullSerializer
 from .serializers import NotificationSerializer
+import jwt
+
+@api_view()
+def event_token(request):
+    """
+    GET's to this endpoint, generate a short-lived token that authorizes
+    a user to subscribe to the users event stream.
+    """
+
+    encoded = jwt.encode({
+        "user_id": str(request.user.id),
+        "iat": datetime.now(tz=timezone.utc),
+        "exp": datetime.now(tz=timezone.utc) + timedelta(seconds=settings.NOTIFICATION_TOKEN_EXPIRATION_SECONDS)
+    }, settings.SECRET_KEY, algorithm="HS256")
+
+    return Response({"token": encoded})
 
 
 class NotificationViewSet(viewsets.ReadOnlyModelViewSet):

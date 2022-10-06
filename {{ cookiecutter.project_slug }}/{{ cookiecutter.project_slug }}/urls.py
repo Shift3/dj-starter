@@ -30,7 +30,7 @@ router.register(r"users", UserViewSet).register(
 
 {%- if cookiecutter.include_notifications == "yes" %}
 # Notification specific
-from .notification_system.views import NotificationViewSet
+from .notification_system.views import NotificationViewSet, event_token
 router.register(r"notifications", NotificationViewSet, "notification")
 {%- endif %}
 
@@ -39,6 +39,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
     path("", include("djoser.urls.authtoken")),
+{%- if cookiecutter.include_notifications == "yes" %}
+    path("event-token/", event_token),
+{%- endif %}
     path("rf-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
