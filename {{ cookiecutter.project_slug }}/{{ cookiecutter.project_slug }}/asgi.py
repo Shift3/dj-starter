@@ -12,16 +12,16 @@ django_asgi_app = get_asgi_application()
 
 {%- if cookiecutter.include_notifications == "yes" %}
 import django_eventstream
-from {{ cookiecutter.project_slug }}.core.middleware import TokenInHeaderMiddleware
+from {{ cookiecutter.project_slug }}.core.middleware import ShortLivedTokenInQueryStringMiddleware
 {%- endif %}
 
 
 application = ProtocolTypeRouter({
     "http": URLRouter([
 {%- if cookiecutter.include_notifications == "yes" %}
-        re_path(r"^events/(?P<channel>[\w-]+)/",
+        re_path(r"^events/(?P<channel>[\w-]+)/", ShortLivedTokenInQueryStringMiddleware(
             URLRouter(django_eventstream.routing.urlpatterns)
-        ),
+        )),
 {%- endif %}
         re_path(r"", django_asgi_app),
     ]),
