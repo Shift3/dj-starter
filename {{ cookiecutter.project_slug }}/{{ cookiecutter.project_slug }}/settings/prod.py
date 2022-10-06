@@ -31,6 +31,16 @@ AWS_HEADERS = {
     "Cache-Control": "max-age=86400, s-maxage=86400, must-revalidate",
 }
 
+# Use redis as production grade channel layer.
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(env.str("REDIS_HOST"), env.int("REDIS_PORT", 6379))],
+        },
+    },
+}
+
 # Disable browsable api in production
 if REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] is not None:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = list(

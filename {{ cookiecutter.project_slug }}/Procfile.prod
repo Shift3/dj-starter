@@ -1,0 +1,2 @@
+web: NEW_RELIC_CONFIG_FILE=newrelic.ini newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - {{ cookiecutter.project_slug}}.asgi:application -k uvicorn.workers.UvicornWorker
+worker: ./manage.py rundramatiq

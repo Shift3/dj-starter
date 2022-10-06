@@ -1,6 +1,7 @@
 import os
 import socket
 import dj_database_url
+import redis
 import environ
 from os.path import join
 
@@ -32,11 +33,14 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Health check
     "health_check",
     "health_check.db",
     "health_check.contrib.migrations",
+
     # Third party apps
+    "channels",
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
@@ -46,17 +50,26 @@ INSTALLED_APPS = (
     "simple_history",
     "phonenumber_field",
     "easy_thumbnails",
+    "django_dramatiq",
+
     # Your apps
     "{{ cookiecutter.project_slug }}.core",
     "{{ cookiecutter.project_slug }}.users",
     "{{ cookiecutter.project_slug }}.agents",
+{%- if cookiecutter.include_notifications == "yes" %}
+    "django_eventstream",
+    "{{ cookiecutter.project_slug }}.notification_system",
+{%- endif %}
 )
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
 MIDDLEWARE = (
+    "corsheaders.middleware.CorsMiddleware",
+{%- if cookiecutter.include_notifications == "yes" %}
+    "django_grip.GripMiddleware",
+{%- endif %}
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -272,4 +285,47 @@ DJOSER = {
     },
 }
 
+# Tasks
+DRAMATIQ_REDIS_URL = env.str("REDIS_URL", "redis://redis:6379/0")
+DRAMATIQ_BROKER = {
+    "BROKER": "dramatiq.brokers.redis.RedisBroker",
+    "OPTIONS": {
+        "connection_pool": redis.ConnectionPool.from_url(DRAMATIQ_REDIS_URL),
+    },
+    "MIDDLEWARE": [
+        "dramatiq.middleware.AgeLimit",
+        "dramatiq.middleware.TimeLimit",
+        "dramatiq.middleware.Retries",
+        "django_dramatiq.middleware.AdminMiddleware",
+        "django_dramatiq.middleware.DbConnectionsMiddleware",
+    ],
+}
+
+# Simple History
 SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True
+
+# Django Channels
+# https://channels.readthedocs.io/en/stable/topics/channel_layers.html
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+ASGI_APPLICATION = '{{ cookiecutter.project_slug }}.asgi.application'
+
+# Twilio Integration
+TWILIO_FROM_NUMBER = env.str("TWILIO_FROM_NUMBER", None)
+TWILIO_ACCOUNT_SID = env.str("TWILIO_ACCOUNT_SID", None)
+TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", None)
+
+{%- if cookiecutter.include_notifications == "yes" %}
+# Django Eventstream
+# https://github.com/fanout/django-eventstream
+# 
+# Enables the easy use of SSE (Server sent events) we use this for
+# notifications.
+# EVENTSTREAM_CHANNELMANAGER_CLASS = '{{ cookiecutter.project_slug }}.core.channelmanager.UserChannelManager'
+EVENTSTREAM_ALLOW_ORIGIN = CLIENT_URL
+EVENTSTREAM_ALLOW_CREDENTIALS = True
+NOTIFICATION_TOKEN_EXPIRATION_SECONDS = 30
+{%- endif %}
