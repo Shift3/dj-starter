@@ -80,7 +80,7 @@ environment variables follow:
   - When using [AWS AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) (as bitwise does for AWS infastructure in our accounts). You must set this environment variable. When deploying to infrastructure outside of bitwise infrastructure, this variable is optional. The example value is the value you should use on bitwise infrastructure.
   - `arn:aws:iam::008036621198:role/SuperDevAssumeRole`
 
-Once all of these are setup, commits to the `develop` branch should automatically deploy to your staging infrastructure. For more details on the deployment process, or if you need to customize it to fit your needs, check out the [`.cirleci/config.yml`](.circleci/config.yml) file.
+Once all of these are setup, commits to the `develop` branch should automatically deploy to your staging infrastructure. For more details on the deployment process, or if you need to customize it to fit your needs, check out the `.cirleci/config.yml` file.
 
 ## Deploying to Production
 

@@ -226,6 +226,7 @@ THUMBNAIL_ALIASES = {
     "": {
         "xs": {"size": (32, 32), "crop": True},
         "sm": {"size": (64, 64), "crop": True},
+        "md": {"size": (128, 128), "crop": True},
     }
 }
 

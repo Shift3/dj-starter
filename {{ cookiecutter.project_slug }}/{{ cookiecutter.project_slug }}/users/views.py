@@ -4,7 +4,7 @@ from {{ cookiecutter.project_slug }}.core.filters import (
     CamelCaseDjangoFilterBackend,
     CamelCaseOrderingFilter,
 )
-from {{ cookiecutter.project_slug }}.core.serializers import serialize_email
+from {{ cookiecutter.project_slug }}.core.serializers import NullSerializer, serialize_email
 from {{ cookiecutter.project_slug }}.core.tasks import send_email_later
 from djoser.serializers import UidAndTokenSerializer
 from django.db import transaction
@@ -68,7 +68,22 @@ class UserViewSet(DjoserUserViewSet):
         serialized_email = serialize_email(ChangeEmailRequestEmail(request, context), to)
         send_email_later.send(serialized_email)
 
-        return Response(status=status.HTTP_200_OK)
+        serialized_user = UserSerializer(user, context={"request": request})
+        return Response(data=serialized_user.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=False,
+        methods=["post"],
+        serializer_class=NullSerializer,
+        permission_classes=[IsAuthenticated, IsUserOrAdmin],
+    )
+    def cancel_change_email_request(self, request, *args, **kwargs):
+        user = request.user
+        user.new_email = None
+        user.save()
+        serialized_user = UserSerializer(user, context={"request": request})
+        return Response(data=serialized_user.data, status=status.HTTP_200_OK)
+
 
     @action(
         detail=False,

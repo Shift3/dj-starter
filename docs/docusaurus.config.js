@@ -9,7 +9,7 @@ const config = {
   title: 'DJ Starter Project',
   tagline: 'A Django API starter project. Batteries included.',
   url: 'https://shift3.github.io/dj-starter',
-  baseUrl: '/',
+  baseUrl: '/dj-starter/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -76,7 +76,7 @@ const config = {
             items: [
               {
                 label: 'Docs',
-                to: '/docs/getting-started/getting-started',
+                to: '/docs/getting-started/intro',
               },
             ],
           },
