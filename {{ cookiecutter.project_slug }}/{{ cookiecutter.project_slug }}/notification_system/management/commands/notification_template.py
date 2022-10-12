@@ -1,8 +1,8 @@
+from {{ cookiecutter.project_slug }}.notification_system.backends import DatabaseBackend, EmailBackend, SMSBackend
+from {{ cookiecutter.project_slug }}.notification_system.notifications import BaseNotification
+
 {% raw %}
 from templated_mail.mail import BaseEmailMessage
-from dj_starter_demo.notification_system.backends import DatabaseBackend, EmailBackend, SMSBackend
-from dj_starter_demo.notification_system.notifications import BaseNotification
-
 
 class {{ name }}Notification(BaseNotification):
     backends = [DatabaseBackend, EmailBackend, SMSBackend]

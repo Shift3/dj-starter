@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     "phonenumber_field",
     "easy_thumbnails",
     "django_dramatiq",
+    "djstripe",
 
     # Your apps
     "{{ cookiecutter.project_slug }}.core",
@@ -60,6 +61,7 @@ INSTALLED_APPS = (
     "django_eventstream",
     "{{ cookiecutter.project_slug }}.notification_system",
 {%- endif %}
+    "{{ cookiecutter.project_slug }}.payments",
 )
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
@@ -340,3 +342,11 @@ NOTIFICATION_TOKEN_EXPIRATION_SECONDS = 30
 # nginx/apache is configure to accept body content up to or above the
 # size you set here.
 MAX_IMAGE_UPLOAD_SIZE_MB = 20
+
+STRIPE_LIVE_MODE = False
+STRIPE_SECRET_KEY= env.str("STRIPE_SECRET_KEY", None)
+STRIPE_TEST_SECRET_KEY= env.str("STRIPE_SECRET_KEY", None)
+STRIPE_LIVE_SECRET_KEY= env.str("STRIPE_SECRET_KEY", None)
+DJSTRIPE_WEBHOOK_SECRET = env.str("DJSTRIPE_WEBHOOK_SECRET", "")
+DJSTRIPE_WEBHOOK_VALIDATION = None
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "djstripe_id"

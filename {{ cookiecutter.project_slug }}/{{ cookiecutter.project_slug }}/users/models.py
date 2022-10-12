@@ -12,7 +12,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from simple_history.models import HistoricalRecords
 from easy_thumbnails.fields import ThumbnailerImageField
 from unique_upload import unique_upload
-
+from djstripe.models import Customer
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -107,3 +107,16 @@ class User(AbstractUser, TimeStampedModel):
         if self.profile_picture:
             thumbnailer = get_thumbnailer(self.profile_picture)
             thumbnailer.delete(save=save)
+    
+    @property
+    def subscription(self):
+        try:
+            customer = Customer.objects.get(subscriber=self)
+        except Customer.DoesNotExist:
+            return None
+
+        # TODO: Clean this up.
+        for sub in customer.subscriptions.all():
+            if sub.is_status_current() or sub.is_status_temporarily_current():
+                return sub
+        return None

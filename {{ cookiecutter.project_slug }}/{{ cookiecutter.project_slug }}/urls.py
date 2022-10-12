@@ -8,11 +8,15 @@ from rest_framework_extensions.routers import NestedRouterMixin
 from .agents.views import AgentHistoryViewSet, AgentViewSet
 from .users.views import UserHistoryViewSet, UserViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from .payments.views import (
+    PlanListView,
+    SubscriptionViewSet,
+    PaymentMethodViewSet
+)
 
 
 class DefaultRouterWithNesting(NestedRouterMixin, DefaultRouter):
     pass
-
 
 router = DefaultRouterWithNesting()
 router.register(r"agents", AgentViewSet).register(
@@ -33,6 +37,11 @@ router.register(r"users", UserViewSet).register(
 from .notification_system.views import NotificationViewSet, event_token
 router.register(r"notifications", NotificationViewSet, "notification")
 {%- endif %}
+
+# Subscription management endpoints
+router.register(r'plans', PlanListView)
+router.register(r'subscriptions', SubscriptionViewSet, 'subscriptions')
+router.register(r'payment_methods', PaymentMethodViewSet, 'payment_methods')
 
 urlpatterns = [
     path("health-check", include("health_check.urls")),

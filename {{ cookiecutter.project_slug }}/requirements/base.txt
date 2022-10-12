@@ -51,3 +51,6 @@ django-health-check==3.16.5
 # Notification Dependencies
 django-eventstream==4.4.1
 {%- endif %}
+
+# Payments
+dj-stripe==2.6.2

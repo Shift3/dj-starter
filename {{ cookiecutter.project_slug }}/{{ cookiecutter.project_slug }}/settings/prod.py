@@ -65,3 +65,6 @@ if REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] is not None:
 # https://docs.djangoproject.com/en/4.1/ref/settings/#secure-proxy-ssl-header
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+STRIPE_LIVE_MODE = True
+DJSTRIPE_WEBHOOK_VALIDATION = "verify_signature"
