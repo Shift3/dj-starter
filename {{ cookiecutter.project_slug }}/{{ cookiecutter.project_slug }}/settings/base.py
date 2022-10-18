@@ -330,3 +330,9 @@ EVENTSTREAM_ALLOW_ORIGIN = CLIENT_URL
 EVENTSTREAM_ALLOW_CREDENTIALS = True
 NOTIFICATION_TOKEN_EXPIRATION_SECONDS = 30
 {%- endif %}
+
+# When using the `image_size_validator`, this sets the maximum size
+# that will be accepted. Make sure that in production, your
+# nginx/apache is configure to accept body content up to or above the
+# size you set here.
+MAX_IMAGE_UPLOAD_SIZE_MB = 20
