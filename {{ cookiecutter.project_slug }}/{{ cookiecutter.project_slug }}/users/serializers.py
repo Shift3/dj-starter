@@ -3,6 +3,7 @@ from rest_framework import serializers
 from djoser import serializers as dj_serializers
 from djoser.conf import settings as djoser_settings
 from .models import User, HistoricalUser
+from ..core.validators import image_size_validator
 
 
 class ActivationSerializer(dj_serializers.ActivationSerializer):
@@ -56,11 +57,11 @@ class InviteUserSerializer(serializers.ModelSerializer):
         fields = ("email", "first_name", "last_name", "role")
 
 
-class ProfilePictureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("profile_picture",)
-
+class ProfilePictureSerializer(serializers.Serializer):
+    file = serializers.ImageField(
+        max_length=100,
+        validators=[image_size_validator]
+    )
 
 class TokenSerializer(dj_serializers.TokenSerializer):
     user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())

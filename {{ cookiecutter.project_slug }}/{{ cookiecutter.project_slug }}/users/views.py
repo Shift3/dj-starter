@@ -132,7 +132,7 @@ class UserViewSet(DjoserUserViewSet):
         # Delete old profile picture if it exists
         user.delete_profile_picture(save=False)
 
-        user.profile_picture = request.data["file"]
+        user.profile_picture = serializer.validated_data["file"]
         user.save()
 
         serialized_user = UserSerializer(user, context={"request": request})
