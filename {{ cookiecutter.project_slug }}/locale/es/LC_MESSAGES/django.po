@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: dj_starter_demo/agents/templates/notifications/agent_created_notification_email.html:5
+#: {{ cookiecutter.project_slug }}/agents/templates/notifications/agent_created_notification_email.html:5
 msgid "New agent created"
 msgstr ""
 
-#: dj_starter_demo/agents/templates/notifications/agent_created_notification_email.html:10
+#: {{ cookiecutter.project_slug }}/agents/templates/notifications/agent_created_notification_email.html:10
 #, python-format
 msgid ""
 "\n"
@@ -34,48 +34,48 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dj_starter_demo/core/validators.py:14
+#: {{ cookiecutter.project_slug }}/core/validators.py:14
 #, python-format
 msgid "The file exceed the maximum size of %(max_size)s MB."
 msgstr "El archivo supera el tamaño máximo de %(max_size)s MB."
 
-#: dj_starter_demo/users/models.py:20
+#: {{ cookiecutter.project_slug }}/users/models.py:20
 msgid "The Email must be set"
 msgstr "El correo electrónico debe estar configurado"
 
-#: dj_starter_demo/users/models.py:53
+#: {{ cookiecutter.project_slug }}/users/models.py:53
 msgid "first name"
 msgstr ""
 
-#: dj_starter_demo/users/models.py:54
+#: {{ cookiecutter.project_slug }}/users/models.py:54
 msgid "last name"
 msgstr ""
 
-#: dj_starter_demo/users/models.py:62
+#: {{ cookiecutter.project_slug }}/users/models.py:62
 msgid "active"
 msgstr ""
 
-#: dj_starter_demo/users/models.py:65
+#: {{ cookiecutter.project_slug }}/users/models.py:65
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: dj_starter_demo/users/serializers.py:16
+#: {{ cookiecutter.project_slug }}/users/serializers.py:16
 msgid "Passwords must match."
 msgstr "Las contraseñas deben coincidir."
 
-#: dj_starter_demo/users/serializers.py:45
+#: {{ cookiecutter.project_slug }}/users/serializers.py:45
 msgid "A user with this email already exists."
 msgstr "Ya existe un usuario con este correo electrónico."
 
-#: dj_starter_demo/users/templates/email/change_email_request.html:5
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:5
 #, python-format
 msgid "Email change request on %(site_name)s"
 msgstr "Solicitud de cambio de correo electrónico en %(site_name)s"
 
-#: dj_starter_demo/users/templates/email/change_email_request.html:10
-#: dj_starter_demo/users/templates/email/change_email_request.html:23
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:10
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:23
 #, python-format
 msgid ""
 "You're receiving this email because you requested a change of emails on "
@@ -84,26 +84,26 @@ msgstr ""
 "Estás recibiendo este correo electrónico porque solicitaste un cambio de correos electrónicos en "
 "%(site_name)s."
 
-#: dj_starter_demo/users/templates/email/change_email_request.html:12
-#: dj_starter_demo/users/templates/email/change_email_request.html:25
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:12
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:25
 msgid "Please go to the following page to complete the change email process:"
 msgstr "Vaya a la siguiente página para completar el proceso de cambio de correo electrónico:"
 
-#: dj_starter_demo/users/templates/email/change_email_request.html:17
-#: dj_starter_demo/users/templates/email/change_email_request.html:28
-#: dj_starter_demo/users/templates/email/custom_activation.html:21
-#: dj_starter_demo/users/templates/email/custom_activation.html:36
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:17
+#: {{ cookiecutter.project_slug }}/users/templates/email/change_email_request.html:28
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:21
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:36
 #, python-format
 msgid "Regards, The %(site_name)s team"
 msgstr "Saludos, El equipo de %(site_name)s"
 
-#: dj_starter_demo/users/templates/email/custom_activation.html:5
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:5
 #, python-format
 msgid "Account activation on %(site_name)s"
 msgstr "Activación de cuenta en %(site_name)s"
 
-#: dj_starter_demo/users/templates/email/custom_activation.html:12
-#: dj_starter_demo/users/templates/email/custom_activation.html:29
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:12
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:29
 #, python-format
 msgid ""
 "You're receiving this email because you need to finish activation process on "
@@ -112,23 +112,23 @@ msgstr ""
 "Está recibiendo este correo electrónico porque necesita finalizar el proceso de activación el "
 "%(site_name)s."
 
-#: dj_starter_demo/users/templates/email/custom_activation.html:14
-#: dj_starter_demo/users/templates/email/custom_activation.html:31
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:14
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:31
 msgid "Please go to the following page to activate your account:"
 msgstr "Vaya a la siguiente página para activar su cuenta:"
 
-#: dj_starter_demo/users/templates/email/custom_activation.html:17
-#: dj_starter_demo/users/templates/email/custom_activation.html:34
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:17
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_activation.html:34
 msgid "This link will expire in 24 hours."
 msgstr "Este enlace caducará en 24 horas."
 
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:5
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:5
 #, python-format
 msgid "Password reset on %(site_name)s"
 msgstr "Restablecimiento de contraseña en %(site_name)s"
 
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:9
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:21
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:9
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:21
 #, python-format
 msgid ""
 "You're receiving this email because you requested a password reset for your "
@@ -137,23 +137,23 @@ msgstr ""
 "Está recibiendo este correo electrónico porque solicitó un restablecimiento de contraseña para su "
 "cuenta de usuario en %(site_name)s."
 
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:11
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:23
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:11
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:23
 msgid "Please go to the following page and choose a new password:"
 msgstr "Vaya a la siguiente página y elija una nueva contraseña:"
 
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:13
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:25
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:13
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:25
 msgid "Your username, in case you've forgotten:"
 msgstr "Su nombre de usuario, en caso de que lo haya olvidado:"
 
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:15
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:27
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:15
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:27
 msgid "Thanks for using our site!"
 msgstr "¡Gracias por usar nuestro sitio!"
 
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:17
-#: dj_starter_demo/users/templates/email/custom_password_reset.html:29
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:17
+#: {{ cookiecutter.project_slug }}/users/templates/email/custom_password_reset.html:29
 #, python-format
 msgid "The %(site_name)s team"
 msgstr "El equipo de %(site_name)s"
