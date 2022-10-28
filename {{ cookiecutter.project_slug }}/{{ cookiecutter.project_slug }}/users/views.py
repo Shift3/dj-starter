@@ -181,9 +181,7 @@ class UserViewSet(DjoserUserViewSet):
         serializer = InviteUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        user = serializer.save()
-        user.is_active = False
-        user.save(update_fields=["is_active"])
+        user = serializer.save(is_active=False)
 
         # Send invitation email
         context = {"user": user}
