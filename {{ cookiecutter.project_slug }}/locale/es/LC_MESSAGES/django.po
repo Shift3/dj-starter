@@ -20,7 +20,7 @@ msgstr ""
 
 #: {{ cookiecutter.project_slug }}/agents/templates/notifications/agent_created_notification_email.html:5
 msgid "New agent created"
-msgstr ""
+msgstr "Nueva agente creada"
 
 #: {{ cookiecutter.project_slug }}/agents/templates/notifications/agent_created_notification_email.html:10
 #, python-format
@@ -33,6 +33,13 @@ msgid ""
 "Agent: %(agent)s\n"
 "\n"
 msgstr ""
+"\n"
+"Está recibiendo este correo electrónico porque es administrador y\n"
+"se ha creado un nuevo agente.\n"
+"\n"
+"Creado por: %(creado_por)s\n"
+"Agente: %(agente)s\n"
+"\n"
 
 #: {{ cookiecutter.project_slug }}/core/validators.py:14
 #, python-format
