@@ -37,8 +37,8 @@ msgstr ""
 "Está recibiendo este correo electrónico porque es administrador y\n"
 "se ha creado un nuevo agente.\n"
 "\n"
-"Creado por: %(creado_por)s\n"
-"Agente: %(agente)s\n"
+"Creado por: %(created_by)s\n"
+"Agente: %(agent)s\n"
 "\n"
 
 #: {{ cookiecutter.project_slug }}/core/validators.py:14
