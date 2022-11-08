@@ -15,10 +15,10 @@ def send_agent_creation_notification(sender, instance=None, created=False, **kwa
             AgentCreatedNotification(
                 {
                     "agent_id": instance.pk,
-                    "user_id": str(HistoricalRecords.context.request.user.id),
+                    "user_id": str(instance.history.first().history_user_id),
                 }
             ),
-            User.objects.filter(role=User.ADMIN).exclude(id=HistoricalRecords.context.request.user.id)
+            User.objects.filter(role=User.ADMIN).exclude(id=instance.history.first().history_user_id)
         )
 
 post_save.connect(
