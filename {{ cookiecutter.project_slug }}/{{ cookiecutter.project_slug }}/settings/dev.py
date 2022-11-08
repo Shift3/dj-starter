@@ -22,7 +22,7 @@ MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 # Mail
 # Visit http://localhost:8025/ to see outgoing mail. A mailhog instance
 # is served from that address in development.
-EMAIL_HOST = "mailhog"
+EMAIL_HOST = env.str("EMAIL_HOST", "mailhog")
 EMAIL_PORT = 1025
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
