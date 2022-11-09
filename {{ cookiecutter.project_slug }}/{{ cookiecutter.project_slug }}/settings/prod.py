@@ -60,3 +60,8 @@ if REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] is not None:
         REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].remove(
             "rest_framework.renderers.BrowsableAPIRenderer"
         )
+
+# Ensure we understand we are using https even behind a reverse proxy
+# https://docs.djangoproject.com/en/4.1/ref/settings/#secure-proxy-ssl-header
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
