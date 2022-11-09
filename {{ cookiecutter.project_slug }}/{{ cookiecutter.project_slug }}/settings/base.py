@@ -71,6 +71,7 @@ MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -104,7 +105,10 @@ TIME_ZONE = "UTC"
 LANGUAGE_CODE = "en-us"
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+)
 USE_TZ = True
 LOGIN_REDIRECT_URL = "/"
 

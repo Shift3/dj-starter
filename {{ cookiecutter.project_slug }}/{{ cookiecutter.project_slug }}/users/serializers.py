@@ -4,6 +4,7 @@ from djoser import serializers as dj_serializers
 from djoser.conf import settings as djoser_settings
 from .models import User, HistoricalUser
 from ..core.validators import image_size_validator
+from django.utils.translation import gettext_lazy as _
 
 
 class ActivationSerializer(dj_serializers.ActivationSerializer):
@@ -12,7 +13,7 @@ class ActivationSerializer(dj_serializers.ActivationSerializer):
 
     def validate_password(self, value):
         if value != self.initial_data["password_confirmation"]:
-            raise serializers.ValidationError("Passwords must match.")
+            raise serializers.ValidationError(_("Passwords must match."))
         return value
 
 
@@ -41,7 +42,7 @@ class ChangeEmailRequestSerializer(serializers.Serializer):
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("A user with this email already exists.")
+            raise serializers.ValidationError(_("A user with this email already exists."))
         return value
 
 
