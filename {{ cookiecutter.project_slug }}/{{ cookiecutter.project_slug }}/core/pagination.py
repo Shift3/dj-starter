@@ -12,8 +12,8 @@ class LinkedPagination(pagination.PageNumberPagination):
     def get_paginated_response(self, data):
         url = self.request.build_absolute_uri()
         first_page = 1
-        last_page = math.floor(self.page.paginator.count / self.page.paginator.per_page) + 1
         page_count = math.ceil(self.page.paginator.count / self.page.paginator.per_page)
+        last_page = max(page_count, 1)
 
         return Response(
             {
