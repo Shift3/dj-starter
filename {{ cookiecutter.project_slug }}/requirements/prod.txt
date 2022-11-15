@@ -1,4 +1,4 @@
 -r base.txt
 
 # Production
-django-ses==2.6.1
+django-ses==3.2.0

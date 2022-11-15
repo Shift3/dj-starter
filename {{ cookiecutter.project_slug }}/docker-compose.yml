@@ -7,20 +7,30 @@ services:
       - POSTGRES_DB={{ cookiecutter.project_slug }}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:7-alpine
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - 8025:8025
   web:
     restart: always
     environment:
       - DJANGO_SECRET_KEY=local
+      - PORT=8000
     build: ./
     command: >
       bash -c "python wait_for_postgres.py &&
                ./manage.py migrate &&
-               gunicorn {{ cookiecutter.project_slug }}.wsgi --log-file - -b 0.0.0.0:8000 --reload"
+               honcho start"
     volumes:
       - .:/code/app
     ports:
       - "8000:8000"
     depends_on:
+      - redis
       - postgres
 volumes:
   postgres_data:

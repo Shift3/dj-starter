@@ -3,6 +3,8 @@ from rest_framework import serializers
 from djoser import serializers as dj_serializers
 from djoser.conf import settings as djoser_settings
 from .models import User, HistoricalUser
+from ..core.validators import image_size_validator
+from django.utils.translation import gettext_lazy as _
 
 
 class ActivationSerializer(dj_serializers.ActivationSerializer):
@@ -11,7 +13,7 @@ class ActivationSerializer(dj_serializers.ActivationSerializer):
 
     def validate_password(self, value):
         if value != self.initial_data["password_confirmation"]:
-            raise serializers.ValidationError("Passwords must match.")
+            raise serializers.ValidationError(_("Passwords must match."))
         return value
 
 
@@ -40,7 +42,7 @@ class ChangeEmailRequestSerializer(serializers.Serializer):
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("A user with this email already exists.")
+            raise serializers.ValidationError(_("A user with this email already exists."))
         return value
 
 
@@ -56,11 +58,11 @@ class InviteUserSerializer(serializers.ModelSerializer):
         fields = ("email", "first_name", "last_name", "role")
 
 
-class ProfilePictureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("profile_picture",)
-
+class ProfilePictureSerializer(serializers.Serializer):
+    file = serializers.ImageField(
+        max_length=100,
+        validators=[image_size_validator]
+    )
 
 class TokenSerializer(dj_serializers.TokenSerializer):
     user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())

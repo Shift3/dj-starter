@@ -152,7 +152,7 @@ commands:
             mkdir -p .elasticbeanstalk
             cat \<<-EOF > .elasticbeanstalk/config.yml
             deploy:
-              artifact: Dockerrun.aws.json
+              artifact: artifact.zip
             global:
               application_name: <<parameters.eb_application_name>>
               default_platform: arn:aws:elasticbeanstalk:us-west-2::platform/Docker running on 64bit Amazon Linux/2.17.4
@@ -166,7 +166,7 @@ commands:
               workspace_type: Application
             EOF
       - run:
-          name: Generate Dockerrun.aws.json
+          name: Generate artifact.zip with Dockerrun.aws.json
           command: |-
             cat \<<-EOF > Dockerrun.aws.json
             {
@@ -182,6 +182,8 @@ commands:
               ]
             }
             EOF
+
+            zip -r artifact.zip Dockerrun.aws.json .platform
       - run:
           # Sends the generated Dockerrun.aws.json to eb, this tells EB
           # to pull from the image we just built, and pushed to ECR and

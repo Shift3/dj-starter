@@ -26,6 +26,7 @@ jobs:
                 client_name: "Internal Tooling"
                 admin_email: "internal-tooling@bitwiseindustries.com"
                 staging_client_url: "https://my-react-client.shift3sandbox.com"
+                include_notifications: "yes"
             EOF
             cookiecutter --no-input --config-file $HOME/custom.yaml ./project/
       - run:

@@ -34,8 +34,6 @@ class AgentSerializer(serializers.ModelSerializer):
             if instance.address is not None:
                 instance.address.delete()
                 instance.address = None
-
-            instance.save()
             return
 
         # Handle updating address in validated_data

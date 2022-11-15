@@ -31,6 +31,16 @@ AWS_HEADERS = {
     "Cache-Control": "max-age=86400, s-maxage=86400, must-revalidate",
 }
 
+# Use redis as production grade channel layer.
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(env.str("REDIS_HOST"), env.int("REDIS_PORT", 6379))],
+        },
+    },
+}
+
 # Disable browsable api in production
 if REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] is not None:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = list(
@@ -50,3 +60,8 @@ if REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] is not None:
         REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].remove(
             "rest_framework.renderers.BrowsableAPIRenderer"
         )
+
+# Ensure we understand we are using https even behind a reverse proxy
+# https://docs.djangoproject.com/en/4.1/ref/settings/#secure-proxy-ssl-header
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

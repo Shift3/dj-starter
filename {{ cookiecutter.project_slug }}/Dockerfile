@@ -7,6 +7,9 @@ WORKDIR /code/
 COPY ./requirements requirements
 RUN pip install -r requirements/dev.txt
 
+# Install gettext in order to use Django's Translation system for internationalization support
+RUN apt-get update && apt-get install gettext -y
+
 # Adds our application code to the image
 WORKDIR /code/app
 COPY . /code/app

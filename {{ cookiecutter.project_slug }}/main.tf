@@ -23,6 +23,7 @@ provider "aws" {
 }
 
 locals {
+  slug           = "${var.application_name}-${terraform.workspace}"
   workspace_name = "${terraform.workspace}"
   s3_bucket_name = format("%s-%s-bucket", var.application_name, local.workspace_name)
 }
@@ -36,6 +37,28 @@ module "application" {
   aws_route53_subdomain         = format("%s-%s", var.application_name, local.workspace_name)
   aws_assume_role_arn           = var.aws_assume_role_arn
   default_tags                  = var.default_tags
-  eb_env_variables              = merge(var.eb_env_variables, { DEPLOYED_APPLICATION_NAME = var.application_name, S3_BUCKET = local.s3_bucket_name })
+  eb_env_variables              = merge(
+    var.eb_env_variables,
+    {
+      DEPLOYED_APPLICATION_NAME = var.application_name, 
+      S3_BUCKET = local.s3_bucket_name,
+      REDIS_HOST = aws_elasticache_cluster.main.cache_nodes.0.address,
+      REDIS_PORT = aws_elasticache_cluster.main.cache_nodes.0.port
+    }
+  )
   environment                   = local.workspace_name
+}
+
+resource "aws_elasticache_subnet_group" "default" {
+  name       = "${local.slug}-cache-subnet"
+  subnet_ids = module.application.subnet_ids
+}
+
+resource "aws_elasticache_cluster" "main" {
+  cluster_id           = "${local.slug}-cluster-redis"
+  engine               = "redis"
+  node_type            = "cache.t3.micro"
+  num_cache_nodes      = 1
+  port                 = 6379
+  subnet_group_name    = "${aws_elasticache_subnet_group.default.name}"
 }

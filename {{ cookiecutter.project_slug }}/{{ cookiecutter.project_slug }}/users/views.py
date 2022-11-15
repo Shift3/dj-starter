@@ -4,6 +4,8 @@ from {{ cookiecutter.project_slug }}.core.filters import (
     CamelCaseDjangoFilterBackend,
     CamelCaseOrderingFilter,
 )
+from {{ cookiecutter.project_slug }}.core.serializers import NullSerializer, serialize_email
+from {{ cookiecutter.project_slug }}.core.tasks import send_email_later
 from djoser.serializers import UidAndTokenSerializer
 from django.db import transaction
 from rest_framework import filters, status, viewsets, mixins
@@ -63,9 +65,25 @@ class UserViewSet(DjoserUserViewSet):
 
         context = {"user": user}
         to = [user.new_email]
-        ChangeEmailRequestEmail(request, context).send(to)
+        serialized_email = serialize_email(ChangeEmailRequestEmail(request, context), to)
+        send_email_later.send(serialized_email)
 
-        return Response(status=status.HTTP_200_OK)
+        serialized_user = UserSerializer(user, context={"request": request})
+        return Response(data=serialized_user.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=False,
+        methods=["post"],
+        serializer_class=NullSerializer,
+        permission_classes=[IsAuthenticated, IsUserOrAdmin],
+    )
+    def cancel_change_email_request(self, request, *args, **kwargs):
+        user = request.user
+        user.new_email = None
+        user.save()
+        serialized_user = UserSerializer(user, context={"request": request})
+        return Response(data=serialized_user.data, status=status.HTTP_200_OK)
+
 
     @action(
         detail=False,
@@ -93,7 +111,8 @@ class UserViewSet(DjoserUserViewSet):
         if user.new_email is not None:
             context = {"user": user}
             to = [user.new_email]
-            ChangeEmailRequestEmail(request, context).send(to)
+            serialized_email = serialize_email(ChangeEmailRequestEmail(request, context), to)
+            send_email_later.send(serialized_email)
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -113,7 +132,7 @@ class UserViewSet(DjoserUserViewSet):
         # Delete old profile picture if it exists
         user.delete_profile_picture(save=False)
 
-        user.profile_picture = request.data["file"]
+        user.profile_picture = serializer.validated_data["file"]
         user.save()
 
         serialized_user = UserSerializer(user, context={"request": request})
@@ -146,7 +165,8 @@ class UserViewSet(DjoserUserViewSet):
         if settings.SEND_CONFIRMATION_EMAIL:
             context = {"user": user}
             to = [get_user_email(user)]
-            settings.EMAIL.confirmation(self.request, context).send(to)
+            serialized_email = serialize_email(settings.EMAIL.confirmation(self.request, context), to)
+            send_email_later.send(serialized_email)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -161,14 +181,13 @@ class UserViewSet(DjoserUserViewSet):
         serializer = InviteUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        user = serializer.save()
-        user.is_active = False
-        user.save(update_fields=["is_active"])
+        user = serializer.save(is_active=False)
 
         # Send invitation email
         context = {"user": user}
         to = [user.email]
-        settings.EMAIL.activation(self.request, context).send(to)
+        serialized_email = serialize_email(settings.EMAIL.activation(self.request, context), to)
+        send_email_later.send(serialized_email)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
