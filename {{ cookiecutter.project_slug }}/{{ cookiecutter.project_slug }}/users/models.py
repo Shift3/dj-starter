@@ -83,6 +83,7 @@ class User(AbstractUser, TimeStampedModel):
             models.Index(fields=["first_name"]),
             models.Index(fields=["last_name"]),
             models.Index(fields=["role"]),
+            models.Index(fields=["activated_at"]),
         ]
 
     def activate(self):

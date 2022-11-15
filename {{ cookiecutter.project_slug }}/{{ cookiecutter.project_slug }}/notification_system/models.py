@@ -22,6 +22,10 @@ class DatabaseNotification(TimeStampedModel, models.Model):
 
     class Meta:
         ordering = ["-created"]
+        indexes = [
+            models.Index(fields=['type']),
+            models.Index(fields=['read']),
+        ]
 
 
 class Notification:

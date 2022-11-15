@@ -24,4 +24,5 @@ class Agent(TimeStampedModel, models.Model):
         indexes = [
             models.Index(fields=["name"]),
             models.Index(fields=["email"]),
+            models.Index(fields=["phone_number"]),
         ]
