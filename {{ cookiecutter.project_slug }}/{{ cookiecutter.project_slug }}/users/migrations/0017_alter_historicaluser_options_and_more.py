@@ -19,11 +19,6 @@ class Migration(migrations.Migration):
                 "verbose_name_plural": "historical users",
             },
         ),
-        migrations.AlterField(
-            model_name="historicaluser",
-            name="history_date",
-            field=models.DateTimeField(db_index=True),
-        ),
         migrations.AddIndex(
             model_name="user",
             index=models.Index(
