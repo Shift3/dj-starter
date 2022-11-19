@@ -13,6 +13,11 @@ class Agent(TimeStampedModel, models.Model):
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, null=True, blank=True
     )
+    address1 = models.CharField(max_length=1023, null=True, blank=True)
+    address2 = models.CharField(max_length=1023, null=True, blank=True)
+    city = models.CharField(max_length=255, null=True, blank=True)
+    state = models.CharField(max_length=255, null=True, blank=True)
+    zip_code = models.CharField(max_length=16, null=True, blank=True)
 
     history = HistoricalRecords()
 
