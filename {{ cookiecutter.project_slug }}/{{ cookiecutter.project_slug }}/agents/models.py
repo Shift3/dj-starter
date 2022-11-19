@@ -1,5 +1,4 @@
-from {{ cookiecutter.project_slug }}.core.models import Address
-from django.db import models
+from {{ cookiecutter.project_slug }}.core.models from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django_extensions.db.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
@@ -10,9 +9,6 @@ class Agent(TimeStampedModel, models.Model):
     description = models.TextField()
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField()
-    address = models.OneToOneField(
-        Address, on_delete=models.CASCADE, null=True, blank=True
-    )
     address1 = models.CharField(max_length=1023, null=True, blank=True)
     address2 = models.CharField(max_length=1023, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
