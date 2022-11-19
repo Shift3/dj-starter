@@ -1,4 +1,4 @@
-from {{ cookiecutter.project_slug }}.core.models from django.db import models
+from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django_extensions.db.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
