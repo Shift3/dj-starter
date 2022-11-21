@@ -3,7 +3,7 @@ terraform {
     bucket  = "shift3-terraform-state"
     key     = "{{ cookiecutter.project_slug.replace('_', '-') }}/terraform.tfstate"
     region  = "us-west-2"
-    profile = "shift3"
+    profile = "BWTC-Developer"
   }
 
   required_providers {
@@ -17,9 +17,6 @@ terraform {
 provider "aws" {
   profile = var.aws_profile
   region  = var.aws_region
-  assume_role {
-    role_arn = var.aws_assume_role_arn
-  }
 }
 
 locals {
@@ -49,6 +46,41 @@ module "application" {
   environment                   = local.workspace_name
 }
 
+resource "aws_security_group" "allow_redis_communication" {
+  name                   = "${local.slug}-redis-sg"
+  description            = "Allows private connection to Elasticache (Redis)"
+  egress                 = [{
+    cidr_blocks      = [
+      "0.0.0.0/0",
+    ]
+    description      = ""
+    from_port        = 0
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    protocol         = "-1"
+    security_groups  = []
+    self             = false
+    to_port          = 0
+  }]
+  ingress              = [
+    {
+      cidr_blocks      = [
+        "0.0.0.0/0"
+      ]
+      description      = "Allows connection to redis"
+      from_port        = 6379
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 6379
+    },
+  ]
+  revoke_rules_on_delete = false
+  vpc_id = module.application.vpc_id
+}
+
 resource "aws_elasticache_subnet_group" "default" {
   name       = "${local.slug}-cache-subnet"
   subnet_ids = module.application.subnet_ids
@@ -61,4 +93,5 @@ resource "aws_elasticache_cluster" "main" {
   num_cache_nodes      = 1
   port                 = 6379
   subnet_group_name    = "${aws_elasticache_subnet_group.default.name}"
+  security_group_ids   = [aws_security_group.allow_redis_communication.id]
 }
