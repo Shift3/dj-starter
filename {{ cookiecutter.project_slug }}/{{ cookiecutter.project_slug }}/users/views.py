@@ -26,7 +26,9 @@ from .serializers import (
 )
 from .permissions import IsAdmin, IsUserOrAdmin
 from .models import HistoricalUser
-
+from {{ cookiecutter.project_slug }}.notification_system.models import Notification
+from {{ cookiecutter.project_slug }}.users.models import User
+from .notifications.user_invitation_accepted_notification import UserInvitationAcceptedNotification
 
 class UserViewSet(DjoserUserViewSet):
     permission_classes = (IsAuthenticated,)
@@ -161,6 +163,14 @@ class UserViewSet(DjoserUserViewSet):
         signals.user_activated.send(
             sender=self.__class__, user=user, request=self.request
         )
+
+        Notification.send(
+            UserInvitationAcceptedNotification({
+                "user": user
+            }),
+            User.objects.filter(role=User.ADMIN)
+        )
+
 
         if settings.SEND_CONFIRMATION_EMAIL:
             context = {"user": user}
