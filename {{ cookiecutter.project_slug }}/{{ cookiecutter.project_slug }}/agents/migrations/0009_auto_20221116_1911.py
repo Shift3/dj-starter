@@ -7,12 +7,13 @@ def migrate_address_data(apps, schema_editor):
 
     for agent in Agent.objects.all():
         address = agent.address
-        agent.address1 = address.address1
-        agent.address2 = address.address2
-        agent.city = address.city
-        agent.state = address.state
-        agent.zip_code = address.zip_code
-        agent.save()
+        if address is not None:
+            agent.address1 = address.address1
+            agent.address2 = address.address2
+            agent.city = address.city
+            agent.state = address.state
+            agent.zip_code = address.zip_code
+            agent.save()
 
 class Migration(migrations.Migration):
 
