@@ -18,6 +18,7 @@ Start the dev server for local development:
 ```bash
 docker-compose up
 ```
+You can access your local environment at [http://localhost:8000](http://localhost:8000)
 
 Enter the docker container (while the server is running), migrate, and create a user for yourself:
 ```bash
@@ -25,8 +26,10 @@ Enter the docker container (while the server is running), migrate, and create a 
 docker-compose exec web bash
 
 # And create a superuser for yourself.
+# You'll be prompted to enter a first name, last name, email, password, and password confirmation
 $ ./manage.py createsuperuser
 ```
+After creating the superuser you can access the admin panel at [http://localhost:8000/admin/](http://localhost:8000/admin/)
 
 Optionally run the tests from within the docker container at anytime:
 ```bash
