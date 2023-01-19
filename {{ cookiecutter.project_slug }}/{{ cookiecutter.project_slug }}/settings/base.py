@@ -19,6 +19,10 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 ALLOWED_HOSTS = ["*"]
 DEBUG = env.bool("DJANGO_DEBUG", False)
 
+# We avoid using the django sites framework in favor of a more simple
+# configuration option here
+SITE_NAME = env.str("SITE_NAME", "Starter Project")
+
 SERVER_URL = env.str("SERVER_URL", "http://localhost:8000")
 CLIENT_URL = env.str("CLIENT_URL", "http://localhost:4200")
 DEFAULT_FROM_EMAIL = f'no-reply@{env.str("EMAIL_DOMAIN", "localhost")}'

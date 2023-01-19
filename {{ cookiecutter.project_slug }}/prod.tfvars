@@ -36,5 +36,6 @@ eb_env_variables = {
   DJANGO_SECRET_KEY      = "{{ random_ascii_string(32) }}"
   DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_slug }}.settings.prod"
   SEEDED_USER_EMAIL      = "{{ cookiecutter.admin_email }}"
+  SITE_NAME              = "{{ cookiecutter.project_name }}"
   NEW_RELIC_ENVIRONMENT  = "production"
 }
