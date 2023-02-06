@@ -98,7 +98,7 @@ ADMINS = (("Author", "jschiff@bitwiseindustries.com"),)
 # Postgres
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgres://postgres:@postgres:5432/{{ cookiecutter.project_slug }}",
+        default="postgres://admin:@postgres:5432/{{ cookiecutter.project_slug }}",
         conn_max_age=env.int("POSTGRES_CONN_MAX_AGE", 600),
     )
 }
@@ -330,7 +330,7 @@ TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", None)
 {%- if cookiecutter.include_notifications == "yes" %}
 # Django Eventstream
 # https://github.com/fanout/django-eventstream
-# 
+#
 # Enables the easy use of SSE (Server sent events) we use this for
 # notifications.
 # EVENTSTREAM_CHANNELMANAGER_CLASS = '{{ cookiecutter.project_slug }}.core.channelmanager.UserChannelManager'
