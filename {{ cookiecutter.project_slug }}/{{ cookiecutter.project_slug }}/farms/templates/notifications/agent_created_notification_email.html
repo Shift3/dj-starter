@@ -1,0 +1,14 @@
+{% raw %} {% load i18n %} {% block subject %} {% blocktrans %}New farm created{%
+endblocktrans %} {% endblock subject %} {% block text_body %} {% blocktrans %}
+You're receiving this email because you are an administrator and a new farm has
+been created. Created By: {{ created_by }} Farm: {{ farm}} {% endblocktrans %}
+{% endblock text_body %} {% block html_body %}
+<p>
+  You're receiving this email because you are an administrator and a new farm
+  has been created.
+</p>
+
+<p>Created By: {{ created_by }}</p>
+<p>Farm: {{ farm }}</p>
+
+{% endblock html_body %} {% endraw %}

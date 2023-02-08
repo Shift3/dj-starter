@@ -1,21 +1,19 @@
-from .models import Agent, HistoricalAgent
-from .serializers import AgentHistorySerializer, AgentSerializer
-from {{ cookiecutter.project_slug }}.core.filters import (
+from .models import Farm, HistoricalFarm
+from .serializers import FarmHistorySerializer, FarmSerializer
+from {{cookiecutter.project_slug}}.core.filters import (
     CamelCaseDjangoFilterBackend,
     CamelCaseOrderingFilter,
 )
-from {{ cookiecutter.project_slug }}.users.models import User
-from {{ cookiecutter.project_slug }}.users.permissions import IsAnyRole
-from rest_framework import filters
-from rest_framework import mixins
-from rest_framework import viewsets
+from {{cookiecutter.project_slug}}.users.models import User
+from {{cookiecutter.project_slug}}.users.permissions import IsAnyRole
+from rest_framework import filters, mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
-class AgentViewSet(viewsets.ModelViewSet):
-    queryset = Agent.objects.all()
-    serializer_class = AgentSerializer
+class FarmViewSet(viewsets.ModelViewSet):
+    queryset = Farm.objects.all()
+    serializer_class = FarmSerializer
     permission_classes = (
         IsAuthenticated,
         IsAnyRole([User.EDITOR, User.USER, User.ADMIN]),
@@ -33,12 +31,12 @@ class AgentViewSet(viewsets.ModelViewSet):
     search_fields = ["email", "name", "phone_number"]
 
 
-class AgentHistoryViewSet(
+class FarmHistoryViewSet(
     NestedViewSetMixin, viewsets.GenericViewSet, mixins.ListModelMixin
 ):
-    serializer_class = AgentHistorySerializer
+    serializer_class = FarmHistorySerializer
 
     def get_queryset(self):
         return self.filter_queryset_by_parents_lookups(
-            HistoricalAgent.objects.order_by('-history_date').select_related("history_user")
+            HistoricalFarm.objects.order_by('-history_date').select_related("history_user")
         )

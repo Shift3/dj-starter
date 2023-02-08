@@ -1,13 +1,11 @@
-from {{ cookiecutter.project_slug }}.users.serializers import UserSerializer
+from {{cookiecutter.project_slug}}.users.serializers import UserSerializer
 from rest_framework import serializers
-from .models import Agent
-from .models import HistoricalAgent
+from .models import Farm, HistoricalFarm
 
-
-class AgentSerializer(serializers.ModelSerializer):
+class FarmSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Agent
+        model = Farm
         fields = (
             "id",
             "email",
@@ -23,9 +21,9 @@ class AgentSerializer(serializers.ModelSerializer):
             "zip_code"
         )
 
-class AgentHistorySerializer(serializers.ModelSerializer):
+class FarmHistorySerializer(serializers.ModelSerializer):
     history_user = UserSerializer()
 
     class Meta:
-        model = HistoricalAgent
+        model = HistoricalFarm
         fields = "__all__"
