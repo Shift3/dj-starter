@@ -63,7 +63,7 @@ INSTALLED_APPS = (
 {%- if cookiecutter.include_notifications == "yes" %}
     "django_eventstream",
     "{{ cookiecutter.project_slug }}.notification_system",
-    {%- endif % }
+{%- endif %}
 )
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
