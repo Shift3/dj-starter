@@ -112,3 +112,6 @@ venv.bak/
 .terraform*
 staging.tfvars
 prod.tfvars
+
+# container
+.
