@@ -59,19 +59,19 @@ INSTALLED_APPS = (
     # Your apps
     "{{ cookiecutter.project_slug }}.core",
     "{{ cookiecutter.project_slug }}.users",
-    "{{ cookiecutter.project_slug }}.agents",
-{%- if cookiecutter.include_notifications == "yes" %}
+    "{{ cookiecutter.project_slug }}.farms",
+    {%- if cookiecutter.include_notifications == "yes" % }
     "django_eventstream",
     "{{ cookiecutter.project_slug }}.notification_system",
-{%- endif %}
+    {%- endif % }
 )
 
 # https://docs.djangoproject.com/en/4.0/topics/http/middleware/
 MIDDLEWARE = (
     "corsheaders.middleware.CorsMiddleware",
-{%- if cookiecutter.include_notifications == "yes" %}
+    {%- if cookiecutter.include_notifications == "yes" % }
     "django_grip.GripMiddleware",
-{%- endif %}
+    {%- endif % }
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
