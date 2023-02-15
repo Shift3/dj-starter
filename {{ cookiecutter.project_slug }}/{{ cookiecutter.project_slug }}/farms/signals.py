@@ -29,4 +29,4 @@ post_save.connect(
     sender=Farm,
     dispatch_uid="send_farm_creation_notification"
 )
-{%- endif % }
+{%- endif %}
