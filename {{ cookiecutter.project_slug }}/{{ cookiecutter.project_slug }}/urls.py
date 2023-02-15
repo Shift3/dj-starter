@@ -29,19 +29,21 @@ router.register(r"users", UserViewSet).register(
     parents_query_lookups=["id"]
 )
 
-{%- if cookiecutter.include_notifications == "yes" %}
+{%- if cookiecutter.include_notifications == "yes" % }
 # Notification specific
 router.register(r"notifications", NotificationViewSet, "notification")
-{%- endif %}
+{%- endif % }
 
 urlpatterns = [
     path("health-check", include("health_check.urls")),
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
     path("", include("djoser.urls.authtoken")),
-    {%- if cookiecutter.include_notifications == "yes" % }
+
+    { % - if cookiecutter.include_notifications == "yes" % }
+
     path("event-token/", event_token),
-    {%- endif % }
+    {%- endif %}
     path("rf-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
