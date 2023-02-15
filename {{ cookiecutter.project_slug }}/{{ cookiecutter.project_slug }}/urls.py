@@ -31,7 +31,6 @@ router.register(r"users", UserViewSet).register(
 
 {%- if cookiecutter.include_notifications == "yes" %}
 # Notification specific
-from .notification_system.views import NotificationViewSet, event_token
 router.register(r"notifications", NotificationViewSet, "notification")
 {%- endif %}
 
