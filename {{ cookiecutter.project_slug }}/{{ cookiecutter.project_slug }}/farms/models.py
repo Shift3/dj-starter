@@ -4,7 +4,7 @@ from django_extensions.db.models import TimeStampedModel
 from simple_history.models import HistoricalRecords
 
 
-class Agent(TimeStampedModel, models.Model):
+class Farm(TimeStampedModel, models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     email = models.EmailField(unique=True)

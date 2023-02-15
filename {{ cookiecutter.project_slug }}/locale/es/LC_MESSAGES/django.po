@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: {{ cookiecutter.project_slug }}/agents/templates/notifications/agent_created_notification_email.html:5
-msgid "New agent created"
-msgstr "Nueva agente creada"
+#: {{ cookiecutter.project_slug }}/farms/templates/notifications/farm_created_notification_email.html:5
+msgid "New farm created"
+msgstr "Nueva granja creada"
 
-#: {{ cookiecutter.project_slug }}/agents/templates/notifications/agent_created_notification_email.html:10
+#: {{ cookiecutter.project_slug }}/farms/templates/notifications/farm_created_notification_email.html:10
 #, python-format
 msgid ""
 "\n"
 "You're receiving this email because you are an administrator and a new\n"
-"agent has been created.\n"
+"farm has been created.\n"
 "\n"
 "Created By: %(created_by)s\n"
-"Agent: %(agent)s\n"
+"Farm: %(farm)s\n"
 "\n"
 msgstr ""
 "\n"
 "Está recibiendo este correo electrónico porque es administrador y\n"
-"se ha creado un nuevo agente.\n"
+"se ha creado un nuevo granja.\n"
 "\n"
 "Creado por: %(created_by)s\n"
-"Agente: %(agent)s\n"
+"Granja: %(farm)s\n"
 "\n"
 
 #: {{ cookiecutter.project_slug }}/core/validators.py:14
