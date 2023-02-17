@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 from rest_framework_extensions.routers import NestedRouterMixin
-from .agents.views import AgentHistoryViewSet, AgentViewSet
+from .farms.views import FarmHistoryViewSet, FarmViewSet
 from .users.views import UserHistoryViewSet, UserViewSet
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -15,10 +15,10 @@ class DefaultRouterWithNesting(NestedRouterMixin, DefaultRouter):
 
 
 router = DefaultRouterWithNesting()
-router.register(r"agents", AgentViewSet).register(
+router.register(r"farms", FarmViewSet).register(
     r"history",
-    AgentHistoryViewSet,
-    "agent_history",
+    FarmHistoryViewSet,
+    "farm_history",
     parents_query_lookups=["id"]
 )
 router.register(r"users", UserViewSet).register(

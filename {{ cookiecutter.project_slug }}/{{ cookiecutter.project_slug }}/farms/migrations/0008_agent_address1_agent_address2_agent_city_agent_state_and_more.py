@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("agents", "0007_agent_agents_agen_phone_n_6da118_idx"),
+        ("farms", "0007_agent_agents_agen_phone_n_6da118_idx"),
     ]
 
     operations = [

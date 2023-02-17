@@ -3,7 +3,7 @@
 from django.db import migrations
 
 def migrate_address_data(apps, schema_editor):
-    Agent = apps.get_model('agents', 'Agent')
+    Agent = apps.get_model('farms', 'Agent')
 
     for agent in Agent.objects.all():
         address = agent.address
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         (
-            "agents",
+            "farms",
             "0008_agent_address1_agent_address2_agent_city_agent_state_and_more",
         ),
     ]
