@@ -59,7 +59,7 @@ INSTALLED_APPS = (
     # Your apps
     "{{ cookiecutter.project_slug }}.core",
     "{{ cookiecutter.project_slug }}.users",
-    "{{ cookiecutter.project_slug }}.agents",
+    "{{ cookiecutter.project_slug }}.farms",
 {%- if cookiecutter.include_notifications == "yes" %}
     "django_eventstream",
     "{{ cookiecutter.project_slug }}.notification_system",
