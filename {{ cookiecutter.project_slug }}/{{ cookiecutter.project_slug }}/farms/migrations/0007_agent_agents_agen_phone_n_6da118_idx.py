@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("agents", "0006_alter_historicalagent_options_and_more"),
+        ("farms", "0006_alter_historicalagent_options_and_more"),
     ]
 
     operations = [
