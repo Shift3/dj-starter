@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("core", "0001_initial"),
-        ("agents", "0002_alter_agent_options_agent_created_agent_modified_and_more"),
+        ("farms", "0002_alter_agent_options_agent_created_agent_modified_and_more"),
     ]
 
     operations = [

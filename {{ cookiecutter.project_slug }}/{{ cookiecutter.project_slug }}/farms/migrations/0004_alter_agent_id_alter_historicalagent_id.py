@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("agents", "0003_alter_agent_options_agent_address_and_more"),
+        ("farms", "0003_alter_agent_options_agent_address_and_more"),
     ]
 
     operations = [
