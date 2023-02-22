@@ -21,6 +21,8 @@ services:
     environment:
       - DJANGO_SECRET_KEY=local
       - PORT=8000
+      - POSTGRES_USER=admin
+      - POSTGRES_DB={{ cookiecutter.project_slug }}
     build: ./
     command: >
       bash -c "python wait_for_postgres.py &&

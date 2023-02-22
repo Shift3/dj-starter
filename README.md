@@ -16,6 +16,10 @@ For a live demo, you can check out the frontend [staging site](https://boilerpla
 
 It's easy to generate out your own project. Simply install cookiecutter.
 ```bash
+# For mac os:
+brew install cookiecutter
+
+# For linux/windows:
 pip install --user cookiecutter
 ```
 
