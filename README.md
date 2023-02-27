@@ -97,7 +97,7 @@ which is sent like so:
 
 ```python
 Notification.send(
-    farmCreatedNotification({
+    FarmCreatedNotification({
         "farm_id": instance.id,
         "user_id": "example"
     }),
