@@ -333,7 +333,7 @@ TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", None)
 #
 # Enables the easy use of SSE (Server sent events) we use this for
 # notifications.
-# EVENTSTREAM_CHANNELMANAGER_CLASS = '{{ cookiecutter.project_slug }}.core.channelmanager.UserChannelManager'
+EVENTSTREAM_CHANNELMANAGER_CLASS = '{{ cookiecutter.project_slug }}.core.channelmanager.UserChannelManager'
 EVENTSTREAM_ALLOW_ORIGIN = CLIENT_URL
 EVENTSTREAM_ALLOW_CREDENTIALS = True
 NOTIFICATION_TOKEN_EXPIRATION_SECONDS = 30

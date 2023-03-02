@@ -4,6 +4,7 @@ from channels.db import database_sync_to_async
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
+from django.http import HttpResponseForbidden
 
 
 @database_sync_to_async
@@ -40,7 +41,11 @@ class ShortLivedTokenInQueryStringMiddleware:
         token = params.get('token', (None,))[0]
 
         if token:
-            decoded = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
-            scope['user'] = await get_user(decoded['user_id'])
+            try:
+                decoded = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
+                scope['user'] = await get_user(decoded['user_id'])
+            except jwt.exceptions.ExpiredSignatureError:
+                if 'user' in scope:
+                    del scope['user']
 
         return await self.inner(scope, receive, send)
