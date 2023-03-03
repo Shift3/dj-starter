@@ -7,9 +7,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ("farms", "0001_initial.py"),
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
