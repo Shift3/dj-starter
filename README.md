@@ -66,33 +66,33 @@ directly to consuming clients.
 We include an example notification.
 
 ```python
-class AgentCreatedNotification(BaseNotification):
+class FarmCreatedNotification(BaseNotification):
     backends = [DatabaseBackend, EmailBackend, SMSBackend]
 
     def as_database(self, user):
-        agent = Agent.objects.get(pk=self.context["agent_id"])
+        farm = Farm.objects.get(pk=self.context["farm_id"])
         created_by = User.objects.get(pk=self.context["user_id"])
 
         return {
-            "agent_name": agent.name,
+            "farm_name": farm.name,
             "user_name": created_by.full_name(),
             **self.context
         }
 
     def as_email(self, user):
         return BaseEmailMessage(
-            subject="A new agent has been created",
-            template_name="notifications/agent_created_notification_email.html",
+            subject="A new farm has been created",
+            template_name="notifications/farm_created_notification_email.html",
             context={
                 "user": user,
-                "agent": Agent.objects.get(pk=self.context["agent_id"]),
+                "farm": farm.objects.get(pk=self.context["farm_id"]),
                 "created_by": User.objects.get(pk=self.context["user_id"]),
             },
         )
 
     def as_sms(self, user):
         created_by = User.objects.get(pk=self.context["user_id"])
-        return "Hello {}. A new agent has been created by {}" % (
+        return "Hello {}. A new farm has been created by {}" % (
             user.full_name(), created_by.full_name()
         )
 ```
@@ -101,8 +101,8 @@ which is sent like so:
 
 ```python
 Notification.send(
-    AgentCreatedNotification({
-        "agent_id": instance.id,
+    FarmCreatedNotification({
+        "farm_id": instance.id,
         "user_id": "example"
     }),
     User.objects.filter(role=User.ADMIN) # list of users to send the notifications to

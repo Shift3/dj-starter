@@ -9,7 +9,7 @@ After creation, your project should look something like this:
 ```bash
 my_project/
 ├── my_project/
-│   ├── agents/
+│   ├── farms/
 │   ├── asgi.py
 │   ├── core/
 │   ├── notification_system/

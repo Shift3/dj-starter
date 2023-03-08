@@ -2,17 +2,17 @@
 {% load i18n %}
 
 {% block subject %}
-{% blocktrans %}New agent created{% endblocktrans %}
+{% blocktrans %}New farm created{% endblocktrans %}
 {% endblock subject %}
 
 {% block text_body %}
 
 {% blocktrans %}
 You're receiving this email because you are an administrator and a new
-agent has been created.
+farm has been created.
 
 Created By: {{ created_by }}
-Agent: {{ agent }}
+Farm: {{ farm }}
 
 {% endblocktrans %}
 
@@ -21,11 +21,11 @@ Agent: {{ agent }}
 {% block html_body %}
 <p>
 	You're receiving this email because you are an administrator and a new
-	agent has been created.
+	farm has been created.
 </p>
 
 <p>Created By: {{ created_by }}</p>
-<p>Agent: {{ agent }}</p>
+<p>Farm: {{ farm }}</p>
 
 {% endblock html_body %}
 {% endraw %}

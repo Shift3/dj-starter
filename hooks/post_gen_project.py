@@ -11,7 +11,7 @@ def remove_notification_files():
     os.remove(
         os.path.join(
             "{{ cookiecutter.project_slug }}",
-            "agents",
+            "farms",
             "notifications.py"
         )
     )
