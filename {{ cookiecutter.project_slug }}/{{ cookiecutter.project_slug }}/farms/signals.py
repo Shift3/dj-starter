@@ -12,7 +12,7 @@ from .notifications import FarmCreatedNotification
 def send_farm_creation_notification(sender, instance=None, created=False, **kwargs):
     if created:
         Notification.send(
-            farmCreatedNotification(
+            FarmCreatedNotification(
                 {
                     "farm_id": instance.pk,
                     "user_id": str(instance.history.first().history_user_id),
