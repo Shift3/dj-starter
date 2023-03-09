@@ -295,7 +295,9 @@ DJOSER = {
 }
 
 # Tasks
-DRAMATIQ_REDIS_URL = env.str("REDIS_URL", "redis://redis:6379/0")
+redis_host = env.str("REDIS_HOST", "redis")
+redis_port = env.int("REDIS_PORT", 6379)
+DRAMATIQ_REDIS_URL = f"redis://{redis_host}:{redis_port}/0"
 DRAMATIQ_BROKER = {
     "BROKER": "dramatiq.brokers.redis.RedisBroker",
     "OPTIONS": {
