@@ -11,10 +11,10 @@ infrastructure. Please note that if you used our
 [laptop](https://github.com/shift3/laptop) script to setup your
 computer, you likely have these tools installed already.
 
-* [Terraform](https://www.terraform.io/) for managing infrastructure and
-	provisioning it.
-* [AWS Cli](https://aws.amazon.com/cli/) for storing your AWS
-	credentials for terraform to use.
+- [Terraform](https://www.terraform.io/) for managing infrastructure and
+  provisioning it.
+- [AWS Cli](https://aws.amazon.com/cli/) for storing your AWS
+  credentials for terraform to use.
 
 ## Quick Start
 
@@ -22,15 +22,19 @@ In order to start provisioning your infrastructure we need to initialize
 terraform. Before getting started, make sure you have AWS cli installed
 and the `shift3` profile configured.
 
-```bash	
-aws configure --profile shift3
-```
+```bash
+$ aws configure sso--profile shift3
+
+SSO session name (Recommended): shift3
+SSO start URL [None]: https://bitwiseindustries.awsapps.com/start
+SSO region [None]: us-west-2
+SSO registration scopes [sso:account:access]:
+(press inter)
 
 Once we have the shift3 profile configured we need to initialize
 terraform. This is the first command that should be runl after writing a
 new Terraform configuration or cloning an existing one from version
 control. It is safe to run this command multiple times.
-
 
 ```bash
 terraform init
