@@ -30,6 +30,10 @@ SSO start URL [None]: https://bitwiseindustries.awsapps.com/start
 SSO region [None]: us-west-2
 SSO registration scopes [sso:account:access]:
 (press inter)
+To test this out
+To use this profile, specify the profile name using --profile, as shown:
+
+`aws s3 ls --profile shift3`
 
 Once we have the shift3 profile configured we need to initialize
 terraform. This is the first command that should be runl after writing a
