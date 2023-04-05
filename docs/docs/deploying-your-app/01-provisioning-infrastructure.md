@@ -22,17 +22,15 @@ In order to start provisioning your infrastructure we need to initialize
 terraform. Before getting started, make sure you have AWS cli installed
 and the `shift3` profile configured.
 
-nm-01-ssoconfigure
 ```bash
 $ aws configure sso--profile shift3
 ```bash	
 $ aws configure sso --profile shift3
-main
+
 
 SSO session name (Recommended): shift3
 SSO start URL [None]: https://bitwiseindustries.awsapps.com/start
 SSO region [None]: us-west-2
-nm-01-ssoconfigure
 SSO registration scopes [sso:account:access]:
 (press inter)
 To test this out
@@ -40,7 +38,7 @@ SSO registration scopes [sso:account:access]: (press Enter)
 ```
 To test this out: 
 
-main
+
 To use this profile, specify the profile name using --profile, as shown:
 
 `aws s3 ls --profile shift3`
