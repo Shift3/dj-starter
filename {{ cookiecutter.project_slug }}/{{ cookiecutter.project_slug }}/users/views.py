@@ -44,7 +44,17 @@ class UserViewSet(DjoserUserViewSet):
     }
     search_fields = ["email", "last_name", "first_name"]
 
+    def make_role_read_only(self, serializer):
+        serializer.validated_data.pop('role', None)
+
     def perform_update(self, serializer):
+        user_being_accessed = self.get_object()
+        user_making_request = self.request.user
+        is_same_user = (user_being_accessed == user_making_request)
+
+        if is_same_user or user_being_accessed.role == "USER" or user_being_accessed.role == "EDITOR":
+            self.make_role_read_only(serializer)
+
         serializer.save()
 
     @action(

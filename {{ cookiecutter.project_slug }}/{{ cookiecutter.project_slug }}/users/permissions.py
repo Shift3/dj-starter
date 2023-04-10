@@ -14,7 +14,6 @@ def IsAnyRole(role_list):
 
 IsAdmin = IsAnyRole([User.ADMIN])
 
-
 class IsUserOrReadOnly(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.
