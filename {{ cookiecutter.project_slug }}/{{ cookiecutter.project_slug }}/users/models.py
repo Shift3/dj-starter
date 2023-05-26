@@ -66,7 +66,7 @@ class User(AbstractUser, TimeStampedModel):
             "Unselect this instead of deleting accounts."
         ),
     )
-
+    disabled_at = models.DateTimeField(null=True, blank=True)
     objects = UserManager()
     history = HistoricalRecords(excluded_fields=["password"])
 
@@ -89,6 +89,12 @@ class User(AbstractUser, TimeStampedModel):
     def activate(self):
         self.activated_at = timezone.now()
         self.is_active = True
+        self.disabled_at = None
+        self.save()
+
+    def deactivate(self):
+        self.is_active = False
+        self.disabled_at = timezone.now()
         self.save()
 
     def can_access_role(self, role):
