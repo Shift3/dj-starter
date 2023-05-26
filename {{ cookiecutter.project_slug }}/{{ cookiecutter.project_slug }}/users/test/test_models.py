@@ -28,5 +28,16 @@ def test_user_activate():
 
     user.activate()
 
-    assert user.is_active
-    assert user.activated_at
+    assert user.is_active == True
+    assert user.activated_at is not None
+    assert user.disabled_at is None
+
+@pytest.mark.django_db
+def test_user_deactivate():
+    user = UserFactory()
+
+    user.activate()
+    user.deactivate()
+
+    assert user.is_active is False
+    assert user.disabled_at is not None
