@@ -1,11 +1,11 @@
 from rest_framework_extensions.mixins import NestedViewSetMixin
-from dj_starter_demo.users.email import ChangeEmailRequestEmail
-from dj_starter_demo.core.filters import (
+from {{ cookiecutter.project_slug }}.users.email import ChangeEmailRequestEmail
+from {{ cookiecutter.project_slug }}.core.filters import (
     CamelCaseDjangoFilterBackend,
     CamelCaseOrderingFilter,
 )
-from dj_starter_demo.core.serializers import NullSerializer, serialize_email
-from dj_starter_demo.core.tasks import send_email_later
+from {{ cookiecutter.project_slug }}.core.serializers import NullSerializer, serialize_email
+from {{ cookiecutter.project_slug }}.core.tasks import send_email_later
 from djoser.serializers import UidAndTokenSerializer
 from django.db import transaction
 from rest_framework import filters, status, viewsets, mixins
