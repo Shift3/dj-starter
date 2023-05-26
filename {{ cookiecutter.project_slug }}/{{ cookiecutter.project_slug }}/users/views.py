@@ -1,11 +1,11 @@
 from rest_framework_extensions.mixins import NestedViewSetMixin
-from {{ cookiecutter.project_slug }}.users.email import ChangeEmailRequestEmail
-from {{ cookiecutter.project_slug }}.core.filters import (
+from dj_starter_demo.users.email import ChangeEmailRequestEmail
+from dj_starter_demo.core.filters import (
     CamelCaseDjangoFilterBackend,
     CamelCaseOrderingFilter,
 )
-from {{ cookiecutter.project_slug }}.core.serializers import NullSerializer, serialize_email
-from {{ cookiecutter.project_slug }}.core.tasks import send_email_later
+from dj_starter_demo.core.serializers import NullSerializer, serialize_email
+from dj_starter_demo.core.tasks import send_email_later
 from djoser.serializers import UidAndTokenSerializer
 from django.db import transaction
 from rest_framework import filters, status, viewsets, mixins
@@ -26,6 +26,8 @@ from .serializers import (
 )
 from .permissions import IsAdmin, IsUserOrAdmin
 from .models import HistoricalUser
+from .models import User
+from django.utils import timezone
 
 
 class UserViewSet(DjoserUserViewSet):
@@ -44,17 +46,7 @@ class UserViewSet(DjoserUserViewSet):
     }
     search_fields = ["email", "last_name", "first_name"]
 
-    def make_role_read_only(self, serializer):
-        serializer.validated_data.pop('role', None)
-
     def perform_update(self, serializer):
-        user_being_accessed = self.get_object()
-        user_making_request = self.request.user
-        is_same_user = (user_being_accessed == user_making_request)
-
-        if is_same_user or user_being_accessed.role == "USER" or user_being_accessed.role == "EDITOR":
-            self.make_role_read_only(serializer)
-
         serializer.save()
 
     @action(
@@ -93,7 +85,6 @@ class UserViewSet(DjoserUserViewSet):
         user.save()
         serialized_user = UserSerializer(user, context={"request": request})
         return Response(data=serialized_user.data, status=status.HTTP_200_OK)
-
 
     @action(
         detail=False,
@@ -193,7 +184,6 @@ class UserViewSet(DjoserUserViewSet):
 
         user = serializer.save(is_active=False)
 
-        # Send invitation email
         context = {"user": user}
         to = [user.email]
         serialized_email = serialize_email(settings.EMAIL.activation(self.request, context), to)
@@ -201,6 +191,38 @@ class UserViewSet(DjoserUserViewSet):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(
+        detail=True,
+        methods=["post"],
+        serializer_class=NullSerializer,
+        permission_classes=[IsAdmin],
+    )
+    def disable(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        user.deactivate()
+        serialized_user = UserSerializer(user, context={"request": request})
+        return Response(data=serialized_user.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True,
+        methods=["post"],
+        serializer_class=NullSerializer,
+        permission_classes=[IsAdmin],
+    )
+    def enable(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        user = User.objects.get(id=id)
+        user.activate()
+        serialized_user = UserSerializer(user, context={"request": request})
+        return Response(data=serialized_user.data, status=status.HTTP_200_OK)
 
 class UserHistoryViewSet(
     NestedViewSetMixin, viewsets.GenericViewSet, mixins.ListModelMixin
